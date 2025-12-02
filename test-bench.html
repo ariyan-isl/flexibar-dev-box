@@ -35,6 +35,7 @@
       <!-- ------------------- -->
       <!-- YOUR ANNOUNCEMENT BAR -->
       <!-- ------------------- -->
+      <h3>Before</h3>
       <div
         data-url=""
         style="
@@ -180,11 +181,207 @@
         </a>
       </div>
 
-      <!-- Example page content for testing -->
-      <div style="padding: 20px; max-width: 600px">
-        <p>This is sample page content below the announcement bar.</p>
-        <p>You can add more to test how the bar interacts with your layout.</p>
+      <h3>After</h3>
+
+      <!-- Restructured Announcement Bar with Divs & Flexbox -->
+      <div
+        data-url=""
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          cursor: pointer;
+          height: auto;
+          padding: 8px;
+          background: #181ec7;
+          margin-left: 0%;
+          border-color: #a91111;
+          border-style: hidden;
+          border-width: 0px;
+          border-radius: 0px;
+          gradient-angle: 0;
+          background-size: null;
+          gradient-color1: null;
+          gradient-color2: null;
+          background-image: null;
+        "
+        class="none top flexibar-redirect-area"
+      >
+        <!-- Content Wrapper -->
+        <div
+          class="bar-content"
+          style="display: flex; align-items: center; gap: 12px"
+        >
+          <!-- Message Component -->
+          <div
+            class="message-wrapper"
+            style="
+              color: #ffffff;
+              font-size: 19px;
+              font-family: Montserrat;
+              font-weight: 700;
+            "
+          >
+            <div class="message-text">BLACK FRIDAY deals starts in 👉</div>
+          </div>
+
+          <!-- Countdown Component -->
+          <div
+            id="countdown-after"
+            class="countdown-wrapper"
+            style="display: flex; align-items: center"
+          >
+            <!-- Days Unit -->
+            <div
+              class="countdown-unit"
+              style="
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <div id="Style3-days-after" class="countdown-value">00</div>
+              <div class="countdown-label" style="font-size: x-small">DAYS</div>
+            </div>
+
+            <!-- Separator -->
+            <div
+              style="
+                color: null;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              &nbsp;
+            </div>
+
+            <!-- Hours Unit -->
+            <div
+              class="countdown-unit"
+              style="
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <div id="Style3-hours-after" class="countdown-value">00</div>
+              <div class="countdown-label" style="font-size: x-small">HRS</div>
+            </div>
+
+            <!-- Separator -->
+            <div
+              style="
+                color: null;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              &nbsp;
+            </div>
+
+            <!-- Minutes Unit -->
+            <div
+              class="countdown-unit"
+              style="
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <div id="Style3-mnt-after" class="countdown-value">00</div>
+              <div class="countdown-label" style="font-size: x-small">MINS</div>
+            </div>
+
+            <!-- Separator -->
+            <div
+              style="
+                color: null;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              &nbsp;
+            </div>
+
+            <!-- Seconds Unit -->
+            <div
+              class="countdown-unit"
+              style="
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <div id="Style3-sec-after" class="countdown-value">00</div>
+              <div class="countdown-label" style="font-size: x-small">SECS</div>
+            </div>
+          </div>
+
+          <!-- Button Component -->
+          <a
+            href="#"
+            target="_blank"
+            class="flexibar-button"
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              color: #4d2c2c;
+              border-radius: 4px;
+              background-color: #dfcd27;
+              cursor: pointer;
+              width: max-content;
+              padding: 5px 10px;
+              font-size: 15px;
+              text-decoration: none;
+              border: none;
+            "
+          >
+            See Deal
+          </a>
+        </div>
       </div>
+
+      </div>
+
+      <!-- Example page content for testing -->
     </div>
 
     <!-- Optional: a simple countdown script so numbers animate -->
