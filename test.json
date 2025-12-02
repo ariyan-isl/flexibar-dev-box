@@ -1,0 +1,165 @@
+{
+    "data": {
+        "title": "test 1",
+        "barSettings": [
+            {
+                "barId": 358,
+                "barSettings": {
+                    "textSettings": {
+                        "style": {
+                            "color": "#ffffff",
+                            "fontSize": 22,
+                            "fontFamily": "Josefin Sans",
+                            "fontWeight": 700
+                        },
+                        "message": "<a href=\"https://shopiment.io\" style=\"color:#d56767; text-decoration:underline\" target=\"_blank\">Hurry Up!</a> 30% Off Sale Ends Soon, Am adding this to check if i can modify the whole thing from database"
+                    },
+                    "buttonSettings": {
+                        "href": "",
+                        "style": {
+                            "color": "#ffe6e6",
+                            "animation": "none",
+                            "borderRadius": 0,
+                            "backgroundColor": "#d56767"
+                        },
+                        "content": "Click Here",
+                        "isSelected": false
+                    },
+                    "barDesignSettings": {
+                        "style": {
+                            "width": 100,
+                            "cursor": null,
+                            "height": 63,
+                            "padding": 21,
+                            "textAlign": "center",
+                            "background": "#000000",
+                            "marginLeft": 0,
+                            "borderColor": "",
+                            "borderStyle": "solid",
+                            "borderWidth": 0,
+                            "borderRadius": 0,
+                            "gradientAngle": 0,
+                            "backgroundSize": null,
+                            "gradientColor1": "",
+                            "gradientColor2": "",
+                            "justifyContent": null,
+                            "backgroundImage": null
+                        },
+                        "position": "top",
+                        "animation": "none",
+                        "clickable": true,
+                        "redirectUrl": null,
+                        "backgroundType": "solid"
+                    },
+                    "countdownSettings": {
+                        "style": {
+                            "color": "#edeae0",
+                            "shadow": "",
+                            "fontSize": 28,
+                            "background": null,
+                            "fontFamily": "Josefin Sans"
+                        },
+                        "template": {
+                            "html": "\n        <span style=\"\n          text-align: center;\n          color: {{color}};\n          font-family: '{{fontFamily}}';\n          font-size: {{fontSize}}px;\n          verticle-align: middle;\n        \">\n          <span id=\"{{name}}-days\" style=\"border: 2px solid {{shadow}}; background: {{background}}; border-radius: 5px; padding: 5px; verticle-align: middle\">{{days}}</span> : \n          <span id=\"{{name}}-hours\" style=\"border: 2px solid {{shadow}}; background: {{background}}; border-radius: 5px; padding: 5px; verticle-align: middle\">{{hours}}</span> : \n          <span id=\"{{name}}-mnt\" style=\"border: 2px solid {{shadow}}; background: {{background}}; border-radius: 5px; padding: 5px; verticle-align: middle\">{{minutes}}</span> : \n          <span id=\"{{name}}-sec\" style=\"border: 2px solid {{shadow}}; background: {{background}}; border-radius: 5px; padding: 5px; verticle-align: middle\">{{seconds}}</span>\n        </span>\n        ",
+                            "name": "Style4",
+                            "showValueOnly": false
+                        },
+                        "isSelected": true,
+                        "targetDate": {
+                            "date": "2025-06-26",
+                            "time": "00:00",
+                            "zone": "Asia/Dhaka"
+                        }
+                    }
+                }
+            },
+            {
+                "barId": 359,
+                "barSettings": {
+                    "textSettings": {
+                        "style": {
+                            "color": "#ffffff",
+                            "fontSize": 24,
+                            "fontFamily": "Madimi One",
+                            "fontWeight": 300
+                        },
+                        "message": "🎄 Christmas Special: 25% Off Everything! 🎁"
+                    },
+                    "buttonSettings": {
+                        "href": "",
+                        "style": {
+                            "color": "",
+                            "animation": "none",
+                            "borderRadius": 0,
+                            "backgroundColor": ""
+                        },
+                        "content": "Click Here",
+                        "isSelected": false
+                    },
+                    "barDesignSettings": {
+                        "style": {
+                            "width": 100,
+                            "cursor": null,
+                            "height": 61,
+                            "padding": 18,
+                            "textAlign": "center",
+                            "background": "linear-gradient(77deg, #e1195e, #e45c29)",
+                            "marginLeft": 0,
+                            "borderColor": "",
+                            "borderStyle": "solid",
+                            "borderWidth": 0,
+                            "borderRadius": 7,
+                            "gradientAngle": 77,
+                            "backgroundSize": null,
+                            "gradientColor1": "#e1195e",
+                            "gradientColor2": "#e45c29",
+                            "justifyContent": null,
+                            "backgroundImage": null
+                        },
+                        "position": "top",
+                        "animation": "fallingTop",
+                        "clickable": true,
+                        "redirectUrl": null,
+                        "backgroundType": "gradient"
+                    },
+                    "countdownSettings": {
+                        "style": {
+                            "color": "",
+                            "shadow": "",
+                            "fontSize": 10,
+                            "background": null,
+                            "fontFamily": ""
+                        },
+                        "template": {
+                            "html": "",
+                            "name": "",
+                            "showValueOnly": false
+                        },
+                        "isSelected": false,
+                        "targetDate": null
+                    }
+                }
+            }
+        ],
+        "barMessageTranslations": [],
+        "announcementSettings": {
+            "pages": [],
+            "keywords": "",
+            "countries": [],
+            "targetedDevice": ""
+        },
+        "isSchedule": false,
+        "scheduleType": "",
+        "scheduleDays": "",
+        "startDate": {
+            "date": "2025-11-27",
+            "time": "07:16",
+            "timeZone": null
+        },
+        "endDate": {
+            "date": "2045-01-26",
+            "time": "07:16",
+            "timeZone": null
+        }
+    }
+}
