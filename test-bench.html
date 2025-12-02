@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="..\extensions\inument-flexibar\assets\flexibar-v3.css"
+    />
+    <title>Announcement Bar Test</title>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #f5f5f5;
+        font-family: Montserrat, sans-serif;
+      }
+
+      .page-wrapper {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <!-- ------------------- -->
+      <!-- YOUR ANNOUNCEMENT BAR -->
+      <!-- ------------------- -->
+      <div
+        data-url=""
+        style="
+          width: 100%;
+          cursor: pointer;
+          height: auto;
+          padding: 8px;
+          text-align: center;
+          background: #181ec7;
+          margin-left: 0%;
+          border-color: #a91111;
+          border-style: hidden;
+          border-width: 0px;
+          border-radius: 0px;
+          gradient-angle: 0;
+          background-size: null;
+          gradient-color1: null;
+          gradient-color2: null;
+          justify-content: normal;
+          background-image: null;
+        "
+        class="none top flexibar-redirect-area"
+      >
+        <span
+          style="
+            color: #ffffff;
+            font-size: 19px;
+            font-family: Montserrat;
+            font-weight: 700;
+            width: 100%;
+          "
+        >
+          BLACK FRIDAY deals starts in 👉<span id="countdown-rdehwhtdm">
+            <span
+              style="
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <span id="Style3-days"> 00 </span>
+              <span style="font-size: x-small; margin-top: -7px">DAYS</span>
+            </span>
+            <span
+              style="
+                color: null;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+              >&nbsp;</span
+            >
+            <span
+              style="
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <span id="Style3-hours"> 00 </span>
+              <span style="font-size: x-small; margin-top: -7px">HRS</span>
+            </span>
+            <span
+              style="
+                color: null;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+              >&nbsp;</span
+            >
+            <span
+              style="
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <span id="Style3-mnt"> 00 </span>
+              <span style="font-size: x-small; margin-top: -7px">MINS</span>
+            </span>
+            <span
+              style="
+                color: null;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+              classname="value"
+              >&nbsp;</span
+            >
+            <span
+              style="
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <span id="Style3-sec"> 00 </span>
+              <span style="font-size: x-small; margin-top: -7px">SECS</span>
+            </span>
+          </span>
+        </span>
+
+        <a href="#" target="_blank">
+          <button
+            class="none"
+            style="
+              color: #4d2c2c;
+              border-radius: 4px;
+              background-color: #dfcd27;
+              cursor: pointer;
+              width: max-content;
+              padding: 5px;
+              font-size: 15px;
+              margin-left: 10px;
+              border-color: transparent;
+            "
+          >
+            See Deal
+          </button>
+        </a>
+      </div>
+
+      <!-- Example page content for testing -->
+      <div style="padding: 20px; max-width: 600px">
+        <p>This is sample page content below the announcement bar.</p>
+        <p>You can add more to test how the bar interacts with your layout.</p>
+      </div>
+    </div>
+
+    <!-- Optional: a simple countdown script so numbers animate -->
+    <script>
+      function runTestCountdown() {
+        let d = 10,
+          h = 10,
+          m = 10,
+          s = 10; // 10-second test
+
+        setInterval(() => {
+          if (s <= 0) return;
+          s--;
+
+          document.getElementById("Style3-days").textContent = ("0" + d).slice(
+            -2,
+          );
+          document.getElementById("Style3-hours").textContent = ("0" + h).slice(
+            -2,
+          );
+          document.getElementById("Style3-mnt").textContent = ("0" + m).slice(
+            -2,
+          );
+          document.getElementById("Style3-sec").textContent = ("0" + s).slice(
+            -2,
+          );
+        }, 1000);
+      }
+
+      runTestCountdown();
+    </script>
+  </body>
+</html>
