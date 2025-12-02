@@ -28,6 +28,24 @@
         align-items: center;
         gap: 20px;
       }
+
+      /* Scrolling/Rolling Message Animation */
+      .scrolling-container {
+        overflow: hidden;
+        flex: 1;
+        position: relative;
+      }
+
+      .scrolling-content {
+        display: flex;
+        width: fit-content;
+      }
+
+      .scrolling-message {
+        flex-shrink: 0;
+        white-space: nowrap;
+        padding-right: 60px;
+      }
     </style>
   </head>
   <body>
@@ -35,7 +53,7 @@
       <!-- ------------------- -->
       <!-- YOUR ANNOUNCEMENT BAR -->
       <!-- ------------------- -->
-      <h3>Before</h3>
+      <h3>Initial</h3>
       <div
         data-url=""
         style="
@@ -181,7 +199,7 @@
         </a>
       </div>
 
-      <h3>After</h3>
+      <h3>Updated v1</h3>
 
       <!-- Restructured Announcement Bar with Divs & Flexbox -->
       <div
@@ -233,12 +251,9 @@
             style="display: flex; align-items: center"
           >
             <!-- Days Unit -->
-            <div
+            <span
               class="countdown-unit"
               style="
-                display: inline-flex;
-                flex-direction: column;
-                align-items: center;
                 text-align: center;
                 background: null;
                 color: #fffffe;
@@ -250,9 +265,13 @@
                 font-size: 20px;
               "
             >
-              <div id="Style3-days-after" class="countdown-value">00</div>
-              <div class="countdown-label" style="font-size: x-small">DAYS</div>
-            </div>
+              <span id="Style3-days-after" class="countdown-value">00</span>
+              <span
+                class="countdown-label"
+                style="font-size: x-small; margin-top: -7px"
+                >DAYS</span
+              >
+            </span>
 
             <!-- Separator -->
             <div
@@ -266,12 +285,9 @@
             </div>
 
             <!-- Hours Unit -->
-            <div
+            <span
               class="countdown-unit"
               style="
-                display: inline-flex;
-                flex-direction: column;
-                align-items: center;
                 text-align: center;
                 background: null;
                 color: #fffffe;
@@ -283,9 +299,13 @@
                 font-size: 20px;
               "
             >
-              <div id="Style3-hours-after" class="countdown-value">00</div>
-              <div class="countdown-label" style="font-size: x-small">HRS</div>
-            </div>
+              <span id="Style3-hours-after" class="countdown-value">00</span>
+              <span
+                class="countdown-label"
+                style="font-size: x-small; margin-top: -7px"
+                >HRS</span
+              >
+            </span>
 
             <!-- Separator -->
             <div
@@ -299,12 +319,9 @@
             </div>
 
             <!-- Minutes Unit -->
-            <div
+            <span
               class="countdown-unit"
               style="
-                display: inline-flex;
-                flex-direction: column;
-                align-items: center;
                 text-align: center;
                 background: null;
                 color: #fffffe;
@@ -316,9 +333,13 @@
                 font-size: 20px;
               "
             >
-              <div id="Style3-mnt-after" class="countdown-value">00</div>
-              <div class="countdown-label" style="font-size: x-small">MINS</div>
-            </div>
+              <span id="Style3-mnt-after" class="countdown-value">00</span>
+              <span
+                class="countdown-label"
+                style="font-size: x-small; margin-top: -7px"
+                >MINS</span
+              >
+            </span>
 
             <!-- Separator -->
             <div
@@ -332,12 +353,9 @@
             </div>
 
             <!-- Seconds Unit -->
-            <div
+            <span
               class="countdown-unit"
               style="
-                display: inline-flex;
-                flex-direction: column;
-                align-items: center;
                 text-align: center;
                 background: null;
                 color: #fffffe;
@@ -349,9 +367,13 @@
                 font-size: 20px;
               "
             >
-              <div id="Style3-sec-after" class="countdown-value">00</div>
-              <div class="countdown-label" style="font-size: x-small">SECS</div>
-            </div>
+              <span id="Style3-sec-after" class="countdown-value">00</span>
+              <span
+                class="countdown-label"
+                style="font-size: x-small; margin-top: -7px"
+                >SECS</span
+              >
+            </span>
           </div>
 
           <!-- Button Component -->
@@ -379,6 +401,213 @@
         </div>
       </div>
 
+      <h3>Scrolling/Rolling Message (Right to Left)</h3>
+
+      <!-- Scrolling Announcement Bar -->
+      <div
+        data-url=""
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          cursor: pointer;
+          height: auto;
+          padding: 8px 16px;
+          background: #181ec7;
+          border-color: #a91111;
+          border-style: hidden;
+          border-width: 0px;
+          border-radius: 0px;
+          gradient-angle: 0;
+          background-size: null;
+          gradient-color1: null;
+          gradient-color2: null;
+          background-image: null;
+          gap: 16px;
+        "
+        class="none top flexibar-redirect-area"
+      >
+        <!-- Scrolling Message Container (takes remaining space) -->
+        <div class="scrolling-container">
+          <div class="scrolling-content" id="scrolling-content">
+            <!-- Message will be duplicated automatically by JavaScript -->
+            <div
+              class="scrolling-message"
+              style="
+                color: #ffffff;
+                font-size: 19px;
+                font-family: Montserrat;
+                font-weight: 700;
+              "
+            >
+              🎉 BLACK FRIDAY deals starts in 2 days!💰
+            </div>
+          </div>
+        </div>
+
+        <!-- Fixed Right Section: Countdown + Button -->
+        <div
+          style="display: flex; align-items: center; gap: 12px; flex-shrink: 0"
+        >
+          <!-- Countdown Component -->
+          <div
+            id="countdown-scrolling"
+            class="countdown-wrapper"
+            style="display: flex; align-items: center"
+          >
+            <!-- Days Unit -->
+            <span
+              class="countdown-unit"
+              style="
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <span id="Style3-days-scrolling" class="countdown-value">00</span>
+              <span
+                class="countdown-label"
+                style="font-size: x-small; margin-top: -7px"
+                >DAYS</span
+              >
+            </span>
+
+            <!-- Separator -->
+            <span
+              style="
+                color: null;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              &nbsp;
+            </span>
+
+            <!-- Hours Unit -->
+            <span
+              class="countdown-unit"
+              style="
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <span id="Style3-hours-scrolling" class="countdown-value"
+                >00</span
+              >
+              <span
+                class="countdown-label"
+                style="font-size: x-small; margin-top: -7px"
+                >HRS</span
+              >
+            </span>
+
+            <!-- Separator -->
+            <span
+              style="
+                color: null;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              &nbsp;
+            </span>
+
+            <!-- Minutes Unit -->
+            <span
+              class="countdown-unit"
+              style="
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <span id="Style3-mnt-scrolling" class="countdown-value">00</span>
+              <span
+                class="countdown-label"
+                style="font-size: x-small; margin-top: -7px"
+                >MINS</span
+              >
+            </span>
+
+            <!-- Separator -->
+            <span
+              style="
+                color: null;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              &nbsp;
+            </span>
+
+            <!-- Seconds Unit -->
+            <span
+              class="countdown-unit"
+              style="
+                text-align: center;
+                background: null;
+                color: #fffffe;
+                margin-left: 3px;
+                padding: 5px;
+                border-radius: 3px;
+                box-shadow: #ca3535 2px 4px 5px;
+                font-family: &quot;Montserrat&quot;;
+                font-size: 20px;
+              "
+            >
+              <span id="Style3-sec-scrolling" class="countdown-value">00</span>
+              <span
+                class="countdown-label"
+                style="font-size: x-small; margin-top: -7px"
+                >SECS</span
+              >
+            </span>
+          </div>
+
+          <!-- Button Component -->
+          <a
+            href="#"
+            target="_blank"
+            class="flexibar-button"
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              color: #4d2c2c;
+              border-radius: 4px;
+              background-color: #dfcd27;
+              cursor: pointer;
+              width: max-content;
+              padding: 5px 10px;
+              font-size: 15px;
+              text-decoration: none;
+              border: none;
+              margin-right: 5px;
+            "
+          >
+            See Deal
+          </a>
+        </div>
       </div>
 
       <!-- Example page content for testing -->
@@ -386,6 +615,41 @@
 
     <!-- Optional: a simple countdown script so numbers animate -->
     <script>
+      // Create seamless scrolling marquee dynamically
+      function initScrollingMessage() {
+        const container = document.querySelector(".scrolling-container");
+        const scrollingContent = document.getElementById("scrolling-content");
+        const message = scrollingContent.querySelector(".scrolling-message");
+
+        // Get the width of a single message
+        const messageWidth = message.offsetWidth;
+        const containerWidth = container.offsetWidth;
+
+        // Calculate how many copies we need to fill container + one extra for seamless loop
+        const copiesNeeded = Math.ceil(containerWidth / messageWidth) + 2;
+
+        // Clone messages to fill the space
+        for (let i = 0; i < copiesNeeded; i++) {
+          const clone = message.cloneNode(true);
+          scrollingContent.appendChild(clone);
+        }
+
+        // Create dynamic keyframes for this specific message width
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = `
+          @keyframes seamless-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-${messageWidth}px); }
+          }
+        `;
+        document.head.appendChild(styleSheet);
+
+        // Apply animation - speed is pixels per second (adjust 80 for faster/slower)
+        const speed = 80;
+        const duration = messageWidth / speed;
+        scrollingContent.style.animation = `seamless-scroll ${duration}s linear infinite`;
+      }
+
       function runTestCountdown() {
         let d = 10,
           h = 10,
@@ -396,6 +660,7 @@
           if (s <= 0) return;
           s--;
 
+          // Before (original)
           document.getElementById("Style3-days").textContent = ("0" + d).slice(
             -2,
           );
@@ -408,9 +673,39 @@
           document.getElementById("Style3-sec").textContent = ("0" + s).slice(
             -2,
           );
+
+          // After (restructured)
+          document.getElementById("Style3-days-after").textContent = (
+            "0" + d
+          ).slice(-2);
+          document.getElementById("Style3-hours-after").textContent = (
+            "0" + h
+          ).slice(-2);
+          document.getElementById("Style3-mnt-after").textContent = (
+            "0" + m
+          ).slice(-2);
+          document.getElementById("Style3-sec-after").textContent = (
+            "0" + s
+          ).slice(-2);
+
+          // Scrolling (rolling message)
+          document.getElementById("Style3-days-scrolling").textContent = (
+            "0" + d
+          ).slice(-2);
+          document.getElementById("Style3-hours-scrolling").textContent = (
+            "0" + h
+          ).slice(-2);
+          document.getElementById("Style3-mnt-scrolling").textContent = (
+            "0" + m
+          ).slice(-2);
+          document.getElementById("Style3-sec-scrolling").textContent = (
+            "0" + s
+          ).slice(-2);
         }, 1000);
       }
 
+      // Initialize on page load
+      initScrollingMessage();
       runTestCountdown();
     </script>
   </body>
