@@ -7,292 +7,9 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Lato:wght@100;300;400;700;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <title>Rolling Message v3</title>
-
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        background: #f5f5f5;
-        font-family: Montserrat, sans-serif;
-      }
-
-      /* Scrolling/Rolling Message Animation */
-      .scrolling-container {
-        overflow: hidden;
-        flex: 1;
-        position: relative;
-      }
-
-      .scrolling-content {
-        display: flex;
-        width: fit-content;
-      }
-
-      .scrolling-message {
-        flex-shrink: 0;
-        white-space: nowrap;
-        padding-right: 30px;
-      }
-
-      /* Rolling Message v3 Responsive Styles */
-      .rolling-v3-bar {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: auto;
-        box-sizing: border-box;
-      }
-
-      .rolling-v3-top-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        width: 100%;
-      }
-
-      .rolling-v3-countdown-row {
-        display: none;
-        justify-content: center;
-        width: 100%;
-        margin-top: 8px;
-      }
-
-      /* Desktop: Message | Countdown | Button in one row */
-      @media (min-width: 768px) {
-        .rolling-v3-bar {
-          flex-direction: row;
-          flex-wrap: nowrap;
-        }
-        .rolling-v3-top-row {
-          flex: 1;
-        }
-        .rolling-v3-countdown-desktop {
-          display: flex;
-        }
-        .rolling-v3-countdown-row {
-          display: none !important;
-        }
-      }
-
-      /* Mobile: Message + Button on top, Countdown centered below */
-      @media (max-width: 767px) {
-        .rolling-v3-bar {
-          flex-direction: column;
-          align-items: center;
-        }
-        .rolling-v3-top-row {
-          justify-content: space-between;
-        }
-        .rolling-v3-countdown-desktop {
-          display: none !important;
-        }
-        .rolling-v3-countdown-row {
-          display: flex !important;
-        }
-      }
-
-      /* Button Animations */
-      @keyframes bounce {
-        0%,
-        20%,
-        50%,
-        80%,
-        100% {
-          transform: translateY(0);
-        }
-        40% {
-          transform: translateY(-10px);
-        }
-        60% {
-          transform: translateY(-5px);
-        }
-      }
-      @keyframes flash {
-        0%,
-        50%,
-        100% {
-          opacity: 1;
-        }
-        25%,
-        75% {
-          opacity: 0.5;
-        }
-      }
-      @keyframes rubberBand {
-        0% {
-          transform: scale(1);
-        }
-        30% {
-          transform: scaleX(1.25) scaleY(0.75);
-        }
-        40% {
-          transform: scaleX(0.75) scaleY(1.25);
-        }
-        50% {
-          transform: scaleX(1.15) scaleY(0.85);
-        }
-        65% {
-          transform: scaleX(0.95) scaleY(1.05);
-        }
-        75% {
-          transform: scaleX(1.05) scaleY(0.95);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-      @keyframes emit {
-        0% {
-          box-shadow: 0 0 0 0 currentColor;
-        }
-        100% {
-          box-shadow: 0 0 0 10px transparent;
-        }
-      }
-      @keyframes swing {
-        20% {
-          transform: rotate(15deg);
-        }
-        40% {
-          transform: rotate(-10deg);
-        }
-        60% {
-          transform: rotate(5deg);
-        }
-        80% {
-          transform: rotate(-5deg);
-        }
-        100% {
-          transform: rotate(0deg);
-        }
-      }
-      @keyframes shake {
-        0%,
-        100% {
-          transform: translateX(0);
-        }
-        10%,
-        30%,
-        50%,
-        70%,
-        90% {
-          transform: translateX(-5px);
-        }
-        20%,
-        40%,
-        60%,
-        80% {
-          transform: translateX(5px);
-        }
-      }
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      .btn-animation-bounce {
-        animation: bounce 2s infinite;
-      }
-      .btn-animation-flash {
-        animation: flash 1.5s infinite;
-      }
-      .btn-animation-rubberBand {
-        animation: rubberBand 1s infinite;
-      }
-      .btn-animation-emit {
-        animation: emit 1s infinite;
-      }
-      .btn-animation-swing {
-        animation: swing 1s infinite;
-        transform-origin: top center;
-      }
-      .btn-animation-shake {
-        animation: shake 0.5s infinite;
-      }
-      .btn-animation-pulse {
-        animation: pulse 1s infinite;
-      }
-
-      /* Bar Animations */
-      @keyframes fallingTop {
-        0% {
-          transform: translateY(-100%);
-          opacity: 0;
-        }
-        100% {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-      @keyframes animateLeft {
-        0% {
-          transform: translateX(-100%);
-          opacity: 0;
-        }
-        100% {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-      @keyframes animateRight {
-        0% {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        100% {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-      @keyframes animateBottom {
-        0% {
-          transform: translateY(100%);
-          opacity: 0;
-        }
-        100% {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-
-      .bar-animation-fallingTop {
-        animation: fallingTop 0.5s ease-out;
-      }
-      .bar-animation-animateLeft {
-        animation: animateLeft 0.5s ease-out;
-      }
-      .bar-animation-animateRight {
-        animation: animateRight 0.5s ease-out;
-      }
-      .bar-animation-animateBottom {
-        animation: animateBottom 0.5s ease-out;
-      }
-
-      /* Link styles */
-      .scrolling-message a {
-        text-decoration: inherit;
-        color: inherit;
-      }
-      .scrolling-message a.link-style-underline {
-        text-decoration: underline;
-      }
-      .scrolling-message a.link-style-bold {
-        font-weight: bold;
-      }
-      .scrolling-message a.link-style-italic {
-        font-style: italic;
-      }
-    </style>
+    <title>Announcement Bar Test</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="skeleton.css" />
   </head>
   <body>
     <script>
@@ -338,7 +55,7 @@
           // 3.1 Bar position: 'top', 'sticky-top', 'bottom', 'sticky-bottom'
           position: "top",
           // 3.2 Bar animation: 'none', 'fallingTop', 'animateLeft', 'animateRight', 'animateBottom'
-          animation: "none",
+          animation: "animateLeft",
           // 3.3 Bar content alignment: 'left', 'center', 'right' (NOTE: Not changing layout)
           // This is handled by the responsive CSS layout
           contentAlignment: "center",
@@ -346,7 +63,7 @@
           border: {
             width: 0, // Border width (px)
             style: "solid", // 'none', 'solid', 'dashed', 'dotted', 'double', 'groove', 'ridge', 'inset', 'outset'
-            color: "#a91111", // Border color (hex)
+            color: "#333333", // Border color (hex)
             radius: 0, // Border radius (px)
           },
           // 3.5 Bar padding (px)
@@ -360,12 +77,12 @@
           // 3.7 Bar background type: 'solid' or 'gradient'
           backgroundType: "solid",
           // Solid background color
-          backgroundColor: "#181ec7",
+          backgroundColor: "#000000",
           // Gradient settings (if backgroundType is 'gradient')
           gradient: {
             angle: 90, // Gradient angle (0-360)
-            color1: "#181ec7", // Start color
-            color2: "#6366f1", // End color
+            color1: "#000000", // Start color
+            color2: "#333333", // End color
           },
         },
 
@@ -378,9 +95,9 @@
           // 4.1 Button text
           text: "See Deal",
           // 4.2 Button text color (hex)
-          textColor: "#4d2c2c",
+          textColor: "#ffffff",
           // 4.3 Button background color (hex)
-          backgroundColor: "#dfcd27",
+          backgroundColor: "#D32F2F",
           // 4.4 Button border radius (px)
           borderRadius: 4,
           // 4.5 Button animation: 'none', 'bounce', 'flash', 'rubberBand', 'emit', 'swing', 'shake', 'pulse'
@@ -416,7 +133,7 @@
           // 5.3 Background color (hex) - applied to each unit box
           backgroundColor: "transparent",
           // 5.4 Shadow color (hex) - box-shadow
-          shadowColor: "#ca3535",
+          shadowColor: "#D32F2F",
           // 5.5 Font size (px)
           fontSize: 20,
           // 5.6 Font weight: 100, 200, 300, 400, 500, 600, 700, 800, 900
@@ -452,26 +169,19 @@
       }
 
       function getBarPositionClass() {
-        const positionMap = {
-          top: "position: fixed; top: 0; left: 0; right: 0; z-index: 9999;",
-          "sticky-top": "position: sticky; top: 0; z-index: 9999;",
-          bottom:
-            "position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;",
-          "sticky-bottom": "position: sticky; bottom: 0; z-index: 9999;",
-        };
-        return positionMap[CONFIG.bar.position] || "";
+        return CONFIG.bar.position || "";
       }
 
       function getBarAnimationClass() {
         if (CONFIG.bar.animation && CONFIG.bar.animation !== "none") {
-          return `bar-animation-${CONFIG.bar.animation}`;
+          return CONFIG.bar.animation;
         }
         return "";
       }
 
       function getButtonAnimationClass() {
         if (CONFIG.button.animation && CONFIG.button.animation !== "none") {
-          return `btn-animation-${CONFIG.button.animation}`;
+          return CONFIG.button.animation;
         }
         return "";
       }
@@ -505,10 +215,20 @@
           ? "pointer"
           : "default";
 
-        // Apply position styles
-        const positionStyle = getBarPositionClass();
-        if (positionStyle) {
-          barEl.style.cssText += positionStyle;
+        // Handle DOM placement for bottom positions
+        if (
+          CONFIG.bar.position === "bottom" ||
+          CONFIG.bar.position === "sticky-bottom"
+        ) {
+          document.body.appendChild(barEl);
+        } else {
+          document.body.insertBefore(barEl, document.body.firstChild);
+        }
+
+        // Apply position class
+        const positionClass = getBarPositionClass();
+        if (positionClass) {
+          barEl.classList.add(positionClass);
         }
 
         // Apply animation class
@@ -919,6 +639,82 @@
           </span>
         </div>
       </div>
+    </div>
+
+    <!-- Storefront Skeleton -->
+    <div class="storefront-skeleton">
+      <div class="skeleton-header">
+        <div class="skeleton skeleton-logo"></div>
+        <div class="skeleton-nav">
+          <div class="skeleton skeleton-nav-item"></div>
+          <div class="skeleton skeleton-nav-item"></div>
+          <div class="skeleton skeleton-nav-item"></div>
+        </div>
+        <div class="skeleton-nav">
+          <div class="skeleton skeleton-nav-item" style="width: 30px"></div>
+          <div class="skeleton skeleton-nav-item" style="width: 30px"></div>
+        </div>
+      </div>
+
+      <div class="skeleton skeleton-hero"></div>
+
+      <div class="skeleton-grid">
+        <!-- Generate 4 product skeletons -->
+        <div class="skeleton-product">
+          <div class="skeleton skeleton-image"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text-short"></div>
+        </div>
+        <div class="skeleton-product">
+          <div class="skeleton skeleton-image"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text-short"></div>
+        </div>
+        <div class="skeleton-product">
+          <div class="skeleton skeleton-image"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text-short"></div>
+        </div>
+        <div class="skeleton-product">
+          <div class="skeleton skeleton-image"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text-short"></div>
+        </div>
+      </div>
+
+      <!-- More content for scrolling -->
+      <div
+        class="skeleton skeleton-hero"
+        style="height: 200px; margin-top: 60px"
+      ></div>
+
+      <div class="skeleton-grid">
+        <div class="skeleton-product">
+          <div class="skeleton skeleton-image"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text-short"></div>
+        </div>
+        <div class="skeleton-product">
+          <div class="skeleton skeleton-image"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text-short"></div>
+        </div>
+        <div class="skeleton-product">
+          <div class="skeleton skeleton-image"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text-short"></div>
+        </div>
+        <div class="skeleton-product">
+          <div class="skeleton skeleton-image"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text-short"></div>
+        </div>
+      </div>
+
+      <div
+        class="skeleton skeleton-hero"
+        style="height: 300px; margin-top: 60px"
+      ></div>
     </div>
   </body>
 </html>
