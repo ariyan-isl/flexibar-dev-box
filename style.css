@@ -6,24 +6,24 @@ body {
 }
 
 /* Scrolling/Rolling Message Animation */
-.scrolling-container {
+.message-container {
   overflow: hidden;
   flex: 1;
   position: relative;
 }
 
-.scrolling-content {
+.message-content {
   display: flex;
   width: fit-content;
 }
 
-.scrolling-message {
+.message-text {
   flex-shrink: 0;
   white-space: nowrap;
 }
 
-/* Rolling Message v3 Responsive Styles */
-.rolling-v3-bar {
+/* Flexibar Responsive Styles */
+.flexibar-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,7 +32,7 @@ body {
   box-sizing: border-box;
 }
 
-.rolling-v3-top-row {
+.flexibar-content-row {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,7 +40,7 @@ body {
   width: 100%;
 }
 
-.rolling-v3-countdown-row {
+.flexibar-countdown-row {
   display: none;
   justify-content: center;
   width: 100%;
@@ -49,50 +49,50 @@ body {
 
 /* Desktop: Message | Countdown | Button in one row */
 @media (min-width: 768px) {
-  .rolling-v3-bar {
+  .flexibar-container {
     flex-direction: row;
     flex-wrap: nowrap;
   }
-  .rolling-v3-top-row {
+  .flexibar-content-row {
     flex: 1;
   }
-  .rolling-v3-countdown-desktop {
+  .flexibar-countdown-desktop {
     display: flex;
   }
-  .rolling-v3-countdown-row {
+  .flexibar-countdown-row {
     display: none !important;
   }
 }
 
 /* Mobile: Message + Button on top, Countdown centered below */
 @media (max-width: 767px) {
-  .rolling-v3-bar {
+  .flexibar-container {
     flex-direction: column;
     align-items: center;
   }
-  .rolling-v3-top-row {
+  .flexibar-content-row {
     justify-content: space-between;
   }
-  .rolling-v3-countdown-desktop {
+  .flexibar-countdown-desktop {
     display: none !important;
   }
-  .rolling-v3-countdown-row {
+  .flexibar-countdown-row {
     display: flex !important;
   }
 }
 
 /* Link styles */
-.scrolling-message a {
+.message-text a {
   text-decoration: inherit;
   color: inherit;
 }
-.scrolling-message a.link-style-underline {
+.message-text a.link-style-underline {
   text-decoration: underline;
 }
-.scrolling-message a.link-style-bold {
+.message-text a.link-style-bold {
   font-weight: bold;
 }
-.scrolling-message a.link-style-italic {
+.message-text a.link-style-italic {
   font-style: italic;
 }
 
