@@ -374,7 +374,7 @@
         // ==========================================
         button: {
           // 4.0 Show button: true or false
-          enabled: false,
+          enabled: true,
           // 4.1 Button text
           text: "See Deal",
           // 4.2 Button text color (hex)
@@ -401,7 +401,7 @@
         // ==========================================
         countdown: {
           // 5.0 Show countdown: true or false
-          enabled: false,
+          enabled: true,
           // 5.1 Target date settings
           targetDate: {
             // Start date (ISO format or Date object)
@@ -573,7 +573,10 @@
 
         if (!CONFIG.countdown.enabled) {
           if (desktopCountdown) desktopCountdown.style.display = "none";
-          if (countdownRow) countdownRow.style.display = "none";
+          // Use setProperty with 'important' to override the CSS media query
+          if (countdownRow)
+            countdownRow.style.setProperty("display", "none", "important");
+          if (mobileCountdown) mobileCountdown.style.display = "none";
           return;
         }
 
