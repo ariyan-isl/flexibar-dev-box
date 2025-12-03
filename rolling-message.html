@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Lato:wght@100;300;400;700;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Rolling Message v3</title>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #f5f5f5;
+        font-family: Montserrat, sans-serif;
+      }
+
+      /* Scrolling/Rolling Message Animation */
+      .scrolling-container {
+        overflow: hidden;
+        flex: 1;
+        position: relative;
+      }
+
+      .scrolling-content {
+        display: flex;
+        width: fit-content;
+      }
+
+      .scrolling-message {
+        flex-shrink: 0;
+        white-space: nowrap;
+        padding-right: 30px;
+      }
+
+      /* Rolling Message v3 Responsive Styles */
+      .rolling-v3-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+      }
+
+      .rolling-v3-top-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        width: 100%;
+      }
+
+      .rolling-v3-countdown-row {
+        display: none;
+        justify-content: center;
+        width: 100%;
+        margin-top: 8px;
+      }
+
+      /* Desktop: Message | Countdown | Button in one row */
+      @media (min-width: 768px) {
+        .rolling-v3-bar {
+          flex-direction: row;
+          flex-wrap: nowrap;
+        }
+        .rolling-v3-top-row {
+          flex: 1;
+        }
+        .rolling-v3-countdown-desktop {
+          display: flex;
+        }
+        .rolling-v3-countdown-row {
+          display: none !important;
+        }
+      }
+
+      /* Mobile: Message + Button on top, Countdown centered below */
+      @media (max-width: 767px) {
+        .rolling-v3-bar {
+          flex-direction: column;
+          align-items: center;
+        }
+        .rolling-v3-top-row {
+          justify-content: space-between;
+        }
+        .rolling-v3-countdown-desktop {
+          display: none !important;
+        }
+        .rolling-v3-countdown-row {
+          display: flex !important;
+        }
+      }
+
+      /* Button Animations */
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+      @keyframes flash {
+        0%,
+        50%,
+        100% {
+          opacity: 1;
+        }
+        25%,
+        75% {
+          opacity: 0.5;
+        }
+      }
+      @keyframes rubberBand {
+        0% {
+          transform: scale(1);
+        }
+        30% {
+          transform: scaleX(1.25) scaleY(0.75);
+        }
+        40% {
+          transform: scaleX(0.75) scaleY(1.25);
+        }
+        50% {
+          transform: scaleX(1.15) scaleY(0.85);
+        }
+        65% {
+          transform: scaleX(0.95) scaleY(1.05);
+        }
+        75% {
+          transform: scaleX(1.05) scaleY(0.95);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      @keyframes emit {
+        0% {
+          box-shadow: 0 0 0 0 currentColor;
+        }
+        100% {
+          box-shadow: 0 0 0 10px transparent;
+        }
+      }
+      @keyframes swing {
+        20% {
+          transform: rotate(15deg);
+        }
+        40% {
+          transform: rotate(-10deg);
+        }
+        60% {
+          transform: rotate(5deg);
+        }
+        80% {
+          transform: rotate(-5deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: translateX(-5px);
+        }
+        20%,
+        40%,
+        60%,
+        80% {
+          transform: translateX(5px);
+        }
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .btn-animation-bounce {
+        animation: bounce 2s infinite;
+      }
+      .btn-animation-flash {
+        animation: flash 1.5s infinite;
+      }
+      .btn-animation-rubberBand {
+        animation: rubberBand 1s infinite;
+      }
+      .btn-animation-emit {
+        animation: emit 1s infinite;
+      }
+      .btn-animation-swing {
+        animation: swing 1s infinite;
+        transform-origin: top center;
+      }
+      .btn-animation-shake {
+        animation: shake 0.5s infinite;
+      }
+      .btn-animation-pulse {
+        animation: pulse 1s infinite;
+      }
+
+      /* Bar Animations */
+      @keyframes fallingTop {
+        0% {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      @keyframes animateLeft {
+        0% {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @keyframes animateRight {
+        0% {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @keyframes animateBottom {
+        0% {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .bar-animation-fallingTop {
+        animation: fallingTop 0.5s ease-out;
+      }
+      .bar-animation-animateLeft {
+        animation: animateLeft 0.5s ease-out;
+      }
+      .bar-animation-animateRight {
+        animation: animateRight 0.5s ease-out;
+      }
+      .bar-animation-animateBottom {
+        animation: animateBottom 0.5s ease-out;
+      }
+
+      /* Link styles */
+      .scrolling-message a {
+        text-decoration: inherit;
+        color: inherit;
+      }
+      .scrolling-message a.link-style-underline {
+        text-decoration: underline;
+      }
+      .scrolling-message a.link-style-bold {
+        font-weight: bold;
+      }
+      .scrolling-message a.link-style-italic {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // ============================================================
+      // CONFIGURABLE KNOBS - Edit these values to customize the bar
+      // ============================================================
+
+      const CONFIG = {
+        // ==========================================
+        // 1. MESSAGE SETTINGS
+        // ==========================================
+        message: {
+          // 1.0 Message text (can include <a> tags for links)
+          text: '🎉 BLACK FRIDAY deals starts in 2 days! <a href="https://example.com" class="link-style-underline" target="_blank">Shop Now</a>',
+          // 1.1 Font family: 'Montserrat', 'Roboto', 'Open Sans', 'Lato', 'Poppins', etc.
+          fontFamily: "Montserrat",
+          // 1.2 Font color (hex)
+          fontColor: "#ffffff",
+          // 1.3 Font size (px)
+          fontSize: 19,
+          // 1.4 Font weight: 100, 200, 300, 400, 500, 600, 700, 800, 900
+          fontWeight: 700,
+        },
+
+        // ==========================================
+        // 2. LINK SETTINGS (for links within message)
+        // ==========================================
+        link: {
+          // 2.1 Link text (if using inline link builder)
+          text: "Shop Now",
+          // 2.2 Link address (URL)
+          address: "https://example.com",
+          // 2.3 Link style: 'none', 'underline', 'bold', 'italic'
+          style: "underline",
+          // 2.4 Open with: '_blank' (new tab), '_self' (same tab)
+          openWith: "_blank",
+        },
+
+        // ==========================================
+        // 3. BAR SETTINGS
+        // ==========================================
+        bar: {
+          // 3.1 Bar position: 'top', 'sticky-top', 'bottom', 'sticky-bottom'
+          position: "top",
+          // 3.2 Bar animation: 'none', 'fallingTop', 'animateLeft', 'animateRight', 'animateBottom'
+          animation: "none",
+          // 3.3 Bar content alignment: 'left', 'center', 'right' (NOTE: Not changing layout)
+          // This is handled by the responsive CSS layout
+          contentAlignment: "center",
+          // 3.4 Bar border settings
+          border: {
+            width: 0, // Border width (px)
+            style: "solid", // 'none', 'solid', 'dashed', 'dotted', 'double', 'groove', 'ridge', 'inset', 'outset'
+            color: "#a91111", // Border color (hex)
+            radius: 0, // Border radius (px)
+          },
+          // 3.5 Bar padding (px)
+          padding: 5,
+          // 3.6 Bar clickable link settings
+          clickable: {
+            enabled: false, // true or false
+            url: "", // Redirect URL when bar is clicked
+            openWith: "_blank", // '_blank' (new tab), '_self' (same tab)
+          },
+          // 3.7 Bar background type: 'solid' or 'gradient'
+          backgroundType: "solid",
+          // Solid background color
+          backgroundColor: "#181ec7",
+          // Gradient settings (if backgroundType is 'gradient')
+          gradient: {
+            angle: 90, // Gradient angle (0-360)
+            color1: "#181ec7", // Start color
+            color2: "#6366f1", // End color
+          },
+        },
+
+        // ==========================================
+        // 4. BUTTON SETTINGS
+        // ==========================================
+        button: {
+          // 4.0 Show button: true or false
+          enabled: false,
+          // 4.1 Button text
+          text: "See Deal",
+          // 4.2 Button text color (hex)
+          textColor: "#4d2c2c",
+          // 4.3 Button background color (hex)
+          backgroundColor: "#dfcd27",
+          // 4.4 Button border radius (px)
+          borderRadius: 4,
+          // 4.5 Button animation: 'none', 'bounce', 'flash', 'rubberBand', 'emit', 'swing', 'shake', 'pulse'
+          animation: "none",
+          // Button URL
+          url: "#",
+          // Button open with: '_blank' (new tab), '_self' (same tab)
+          openWith: "_blank",
+          // Button padding
+          paddingX: 10, // Horizontal padding (px)
+          paddingY: 5, // Vertical padding (px)
+          // Button font size
+          fontSize: 15,
+        },
+
+        // ==========================================
+        // 5. COUNTDOWN SETTINGS
+        // ==========================================
+        countdown: {
+          // 5.0 Show countdown: true or false
+          enabled: false,
+          // 5.1 Target date settings
+          targetDate: {
+            // Start date (ISO format or Date object)
+            startDate: new Date().toISOString(),
+            // Target/end date (ISO format or Date object)
+            targetDate: new Date(
+              Date.now() + 10 * 24 * 60 * 60 * 1000
+            ).toISOString(), // 10 days from now
+          },
+          // 5.2 Text color (hex)
+          textColor: "#fffffe",
+          // 5.3 Background color (hex) - applied to each unit box
+          backgroundColor: "transparent",
+          // 5.4 Shadow color (hex) - box-shadow
+          shadowColor: "#ca3535",
+          // 5.5 Font size (px)
+          fontSize: 20,
+          // 5.6 Font weight: 100, 200, 300, 400, 500, 600, 700, 800, 900
+          fontWeight: 700,
+          // 5.7 Font family
+          fontFamily: "Montserrat",
+          // 5.8 Unit box border radius (px)
+          borderRadius: 3,
+          // 5.9 Unit box padding (px)
+          padding: 5,
+        },
+
+        // ==========================================
+        // SCROLLING SETTINGS
+        // ==========================================
+        scrolling: {
+          // Scrolling speed (pixels per second)
+          speed: 80,
+          // Gap between repeated messages (px)
+          gap: 30,
+        },
+      };
+
+      // ============================================================
+      // HELPER FUNCTIONS
+      // ============================================================
+
+      function getBarBackground() {
+        if (CONFIG.bar.backgroundType === "gradient") {
+          return `linear-gradient(${CONFIG.bar.gradient.angle}deg, ${CONFIG.bar.gradient.color1}, ${CONFIG.bar.gradient.color2})`;
+        }
+        return CONFIG.bar.backgroundColor;
+      }
+
+      function getBarPositionClass() {
+        const positionMap = {
+          top: "position: fixed; top: 0; left: 0; right: 0; z-index: 9999;",
+          "sticky-top": "position: sticky; top: 0; z-index: 9999;",
+          bottom:
+            "position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;",
+          "sticky-bottom": "position: sticky; bottom: 0; z-index: 9999;",
+        };
+        return positionMap[CONFIG.bar.position] || "";
+      }
+
+      function getBarAnimationClass() {
+        if (CONFIG.bar.animation && CONFIG.bar.animation !== "none") {
+          return `bar-animation-${CONFIG.bar.animation}`;
+        }
+        return "";
+      }
+
+      function getButtonAnimationClass() {
+        if (CONFIG.button.animation && CONFIG.button.animation !== "none") {
+          return `btn-animation-${CONFIG.button.animation}`;
+        }
+        return "";
+      }
+
+      function handleBarClick(e) {
+        if (CONFIG.bar.clickable.enabled && CONFIG.bar.clickable.url) {
+          // Don't trigger if clicking on button or link
+          if (e.target.closest(".flexibar-button") || e.target.closest("a")) {
+            return;
+          }
+          window.open(CONFIG.bar.clickable.url, CONFIG.bar.clickable.openWith);
+        }
+      }
+
+      // ============================================================
+      // RENDER FUNCTIONS
+      // ============================================================
+
+      function renderBar() {
+        const barEl = document.getElementById("flexibar-rolling-v3");
+        if (!barEl) return;
+
+        // Apply bar styles
+        barEl.style.background = getBarBackground();
+        barEl.style.padding = `${CONFIG.bar.padding}px ${CONFIG.bar.padding}px`;
+        barEl.style.borderWidth = `${CONFIG.bar.border.width}px`;
+        barEl.style.borderStyle = CONFIG.bar.border.style;
+        barEl.style.borderColor = CONFIG.bar.border.color;
+        barEl.style.borderRadius = `${CONFIG.bar.border.radius}px`;
+        barEl.style.cursor = CONFIG.bar.clickable.enabled
+          ? "pointer"
+          : "default";
+
+        // Apply position styles
+        const positionStyle = getBarPositionClass();
+        if (positionStyle) {
+          barEl.style.cssText += positionStyle;
+        }
+
+        // Apply animation class
+        const animClass = getBarAnimationClass();
+        if (animClass) {
+          barEl.classList.add(animClass);
+        }
+
+        // Add click handler for clickable bar
+        if (CONFIG.bar.clickable.enabled) {
+          barEl.addEventListener("click", handleBarClick);
+        }
+      }
+
+      function renderMessage() {
+        const messageEls = document.querySelectorAll(".scrolling-message");
+        messageEls.forEach((el) => {
+          el.innerHTML = CONFIG.message.text;
+          el.style.color = CONFIG.message.fontColor;
+          el.style.fontSize = `${CONFIG.message.fontSize}px`;
+          el.style.fontFamily = CONFIG.message.fontFamily;
+          el.style.fontWeight = CONFIG.message.fontWeight;
+          el.style.paddingRight = `${CONFIG.scrolling.gap}px`;
+        });
+      }
+
+      function renderButton() {
+        const buttonEls = document.querySelectorAll(".flexibar-button");
+        buttonEls.forEach((el) => {
+          if (!CONFIG.button.enabled) {
+            el.style.display = "none";
+            return;
+          }
+          el.style.display = "inline-flex";
+          el.textContent = CONFIG.button.text;
+          el.style.color = CONFIG.button.textColor;
+          el.style.backgroundColor = CONFIG.button.backgroundColor;
+          el.style.borderRadius = `${CONFIG.button.borderRadius}px`;
+          el.style.padding = `${CONFIG.button.paddingY}px ${CONFIG.button.paddingX}px`;
+          el.style.fontSize = `${CONFIG.button.fontSize}px`;
+          el.href = CONFIG.button.url;
+          el.target = CONFIG.button.openWith;
+
+          // Apply animation class
+          const animClass = getButtonAnimationClass();
+          if (animClass) {
+            el.classList.add(animClass);
+          }
+        });
+      }
+
+      function renderCountdown() {
+        const desktopCountdown = document.getElementById(
+          "countdown-scrolling-v3-desktop"
+        );
+        const mobileCountdown = document.getElementById(
+          "countdown-scrolling-v3-mobile"
+        );
+        const countdownRow = document.querySelector(
+          ".rolling-v3-countdown-row"
+        );
+
+        if (!CONFIG.countdown.enabled) {
+          if (desktopCountdown) desktopCountdown.style.display = "none";
+          if (countdownRow) countdownRow.style.display = "none";
+          return;
+        }
+
+        // Apply styles to both desktop and mobile countdowns
+        [desktopCountdown, mobileCountdown].forEach((el) => {
+          if (!el) return;
+          el.style.fontFamily = CONFIG.countdown.fontFamily;
+          el.style.fontSize = `${CONFIG.countdown.fontSize}px`;
+          el.style.fontWeight = CONFIG.countdown.fontWeight;
+        });
+
+        // Apply styles to countdown units
+        const countdownUnits = document.querySelectorAll(".countdown-unit");
+        countdownUnits.forEach((unit) => {
+          unit.style.color = CONFIG.countdown.textColor;
+          unit.style.backgroundColor = CONFIG.countdown.backgroundColor;
+          unit.style.borderRadius = `${CONFIG.countdown.borderRadius}px`;
+          unit.style.padding = `${CONFIG.countdown.padding}px`;
+          unit.style.boxShadow = `${CONFIG.countdown.shadowColor} 2px 4px 5px`;
+        });
+      }
+
+      // ============================================================
+      // SCROLLING ANIMATION
+      // ============================================================
+
+      function initScrollingMessageV3() {
+        const scrollingContentV3 = document.getElementById(
+          "scrolling-content-v3"
+        );
+        if (!scrollingContentV3) return;
+
+        const messageV3 =
+          scrollingContentV3.querySelector(".scrolling-message");
+        const containerV3 = scrollingContentV3.parentElement;
+
+        // Apply message styles first
+        renderMessage();
+
+        // Get the width of a single message
+        const messageWidth = messageV3.offsetWidth;
+        const containerWidth = containerV3.offsetWidth;
+
+        // Calculate how many copies we need to fill container + one extra for seamless loop
+        const copiesNeeded = Math.ceil(containerWidth / messageWidth) + 2;
+
+        // Clone messages to fill the space
+        for (let i = 0; i < copiesNeeded; i++) {
+          const clone = messageV3.cloneNode(true);
+          scrollingContentV3.appendChild(clone);
+        }
+
+        // Create dynamic keyframes for v3
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = `
+          @keyframes seamless-scroll-v3 {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-${messageWidth}px); }
+          }
+        `;
+        document.head.appendChild(styleSheet);
+
+        // Apply animation
+        const duration = messageWidth / CONFIG.scrolling.speed;
+        scrollingContentV3.style.animation = `seamless-scroll-v3 ${duration}s linear infinite`;
+      }
+
+      // ============================================================
+      // COUNTDOWN TIMER
+      // ============================================================
+
+      function runCountdown() {
+        if (!CONFIG.countdown.enabled) return;
+
+        const targetDate = new Date(CONFIG.countdown.targetDate.targetDate);
+
+        function updateCountdown() {
+          const now = new Date();
+          const diff = targetDate - now;
+
+          if (diff <= 0) {
+            // Countdown finished
+            const elements = ["days", "hours", "mnt", "sec"];
+            elements.forEach((el) => {
+              const desktopEl = document.getElementById(
+                `Style3-${el}-scrolling-v3`
+              );
+              const mobileEl = document.getElementById(
+                `Style3-${el}-scrolling-v3-mobile`
+              );
+              if (desktopEl) desktopEl.textContent = "00";
+              if (mobileEl) mobileEl.textContent = "00";
+            });
+            return;
+          }
+
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          // Desktop countdown
+          document.getElementById("Style3-days-scrolling-v3").textContent =
+            String(days).padStart(2, "0");
+          document.getElementById("Style3-hours-scrolling-v3").textContent =
+            String(hours).padStart(2, "0");
+          document.getElementById("Style3-mnt-scrolling-v3").textContent =
+            String(minutes).padStart(2, "0");
+          document.getElementById("Style3-sec-scrolling-v3").textContent =
+            String(seconds).padStart(2, "0");
+
+          // Mobile countdown
+          document.getElementById(
+            "Style3-days-scrolling-v3-mobile"
+          ).textContent = String(days).padStart(2, "0");
+          document.getElementById(
+            "Style3-hours-scrolling-v3-mobile"
+          ).textContent = String(hours).padStart(2, "0");
+          document.getElementById(
+            "Style3-mnt-scrolling-v3-mobile"
+          ).textContent = String(minutes).padStart(2, "0");
+          document.getElementById(
+            "Style3-sec-scrolling-v3-mobile"
+          ).textContent = String(seconds).padStart(2, "0");
+        }
+
+        // Update immediately and then every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      }
+
+      // ============================================================
+      // INITIALIZATION
+      // ============================================================
+
+      document.addEventListener("DOMContentLoaded", function () {
+        renderBar();
+        renderButton();
+        renderCountdown();
+        initScrollingMessageV3();
+        runCountdown();
+      });
+    </script>
+
+    <!-- Rolling Message v3 -->
+    <!-- Desktop: Message | Countdown | Button -->
+    <!-- Mobile: Message | Button (top), Countdown (centered below) -->
+    <div id="flexibar-rolling-v3" class="rolling-v3-bar">
+      <!-- Top Row: Message + (Countdown on desktop) + Button -->
+      <div class="rolling-v3-top-row">
+        <!-- Scrolling Message Container -->
+        <div class="scrolling-container" style="min-width: 150px; flex: 1">
+          <div class="scrolling-content" id="scrolling-content-v3">
+            <div class="scrolling-message"></div>
+          </div>
+        </div>
+
+        <!-- Countdown Component (Desktop only - inline) -->
+        <div
+          id="countdown-scrolling-v3-desktop"
+          class="countdown-wrapper rolling-v3-countdown-desktop"
+          style="display: flex; align-items: center; flex-shrink: 0"
+        >
+          <!-- Days Unit -->
+          <span
+            class="countdown-unit"
+            style="text-align: center; margin-left: 3px"
+          >
+            <span id="Style3-days-scrolling-v3" class="countdown-value"
+              >00</span
+            >
+            <span
+              class="countdown-label"
+              style="
+                font-size: x-small;
+                margin-top: -7px;
+                display: inline-block;
+              "
+              >DAYS</span
+            >
+          </span>
+          <span>&nbsp;</span>
+          <!-- Hours Unit -->
+          <span
+            class="countdown-unit"
+            style="text-align: center; margin-left: 3px"
+          >
+            <span id="Style3-hours-scrolling-v3" class="countdown-value"
+              >00</span
+            >
+            <span
+              class="countdown-label"
+              style="
+                font-size: x-small;
+                margin-top: -7px;
+                display: inline-block;
+              "
+              >HRS</span
+            >
+          </span>
+          <span>&nbsp;</span>
+          <!-- Minutes Unit -->
+          <span
+            class="countdown-unit"
+            style="text-align: center; margin-left: 3px"
+          >
+            <span id="Style3-mnt-scrolling-v3" class="countdown-value">00</span>
+            <span
+              class="countdown-label"
+              style="
+                font-size: x-small;
+                margin-top: -7px;
+                display: inline-block;
+              "
+              >MINS</span
+            >
+          </span>
+          <span>&nbsp;</span>
+          <!-- Seconds Unit -->
+          <span
+            class="countdown-unit"
+            style="text-align: center; margin-left: 3px"
+          >
+            <span id="Style3-sec-scrolling-v3" class="countdown-value">00</span>
+            <span
+              class="countdown-label"
+              style="
+                font-size: x-small;
+                margin-top: -7px;
+                display: inline-block;
+              "
+              >SECS</span
+            >
+          </span>
+        </div>
+
+        <!-- Button Component (always on top row, right side) -->
+        <a
+          href="#"
+          target="_blank"
+          class="flexibar-button"
+          style="
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            width: max-content;
+            text-decoration: none;
+            border: none;
+            flex-shrink: 0;
+          "
+        >
+          See Deal
+        </a>
+      </div>
+
+      <!-- Bottom Row: Countdown (Mobile only - centered) -->
+      <div class="rolling-v3-countdown-row">
+        <div
+          id="countdown-scrolling-v3-mobile"
+          class="countdown-wrapper"
+          style="display: flex; align-items: center"
+        >
+          <!-- Days Unit -->
+          <span
+            class="countdown-unit"
+            style="text-align: center; margin-left: 3px"
+          >
+            <span id="Style3-days-scrolling-v3-mobile" class="countdown-value"
+              >00</span
+            >
+            <span
+              class="countdown-label"
+              style="
+                font-size: x-small;
+                margin-top: -7px;
+                display: inline-block;
+              "
+              >DAYS</span
+            >
+          </span>
+          <span>&nbsp;</span>
+          <!-- Hours Unit -->
+          <span
+            class="countdown-unit"
+            style="text-align: center; margin-left: 3px"
+          >
+            <span id="Style3-hours-scrolling-v3-mobile" class="countdown-value"
+              >00</span
+            >
+            <span
+              class="countdown-label"
+              style="
+                font-size: x-small;
+                margin-top: -7px;
+                display: inline-block;
+              "
+              >HRS</span
+            >
+          </span>
+          <span>&nbsp;</span>
+          <!-- Minutes Unit -->
+          <span
+            class="countdown-unit"
+            style="text-align: center; margin-left: 3px"
+          >
+            <span id="Style3-mnt-scrolling-v3-mobile" class="countdown-value"
+              >00</span
+            >
+            <span
+              class="countdown-label"
+              style="
+                font-size: x-small;
+                margin-top: -7px;
+                display: inline-block;
+              "
+              >MINS</span
+            >
+          </span>
+          <span>&nbsp;</span>
+          <!-- Seconds Unit -->
+          <span
+            class="countdown-unit"
+            style="text-align: center; margin-left: 3px"
+          >
+            <span id="Style3-sec-scrolling-v3-mobile" class="countdown-value"
+              >00</span
+            >
+            <span
+              class="countdown-label"
+              style="
+                font-size: x-small;
+                margin-top: -7px;
+                display: inline-block;
+              "
+              >SECS</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
