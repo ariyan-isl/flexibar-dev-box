@@ -20,7 +20,6 @@ body {
 .scrolling-message {
   flex-shrink: 0;
   white-space: nowrap;
-  padding-right: 30px;
 }
 
 /* Rolling Message v3 Responsive Styles */

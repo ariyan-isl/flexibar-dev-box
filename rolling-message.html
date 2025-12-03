@@ -22,15 +22,17 @@
         // 1. MESSAGE SETTINGS
         // ==========================================
         message: {
-          // 1.0 Message text (can include <a> tags for links)
+          // 1.0 Message type: 'rolling' or 'single'
+          type: "rolling",
+          // 1.1 Message text (can include <a> tags for links)
           text: '🎉 BLACK FRIDAY deals starts in 2 days! <a href="https://example.com" class="link-style-underline" target="_blank">Shop Now</a>',
-          // 1.1 Font family: 'Montserrat', 'Roboto', 'Open Sans', 'Lato', 'Poppins', etc.
+          // 1.2 Font family: 'Montserrat', 'Roboto', 'Open Sans', 'Lato', 'Poppins', etc.
           fontFamily: "Montserrat",
-          // 1.2 Font color (hex)
+          // 1.3 Font color (hex)
           fontColor: "#ffffff",
-          // 1.3 Font size (px)
+          // 1.4 Font size (px)
           fontSize: 19,
-          // 1.4 Font weight: 100, 200, 300, 400, 500, 600, 700, 800, 900
+          // 1.5 Font weight: 100, 200, 300, 400, 500, 600, 700, 800, 900
           fontWeight: 700,
         },
 
@@ -150,10 +152,12 @@
         // SCROLLING SETTINGS
         // ==========================================
         scrolling: {
+          // Enable scrolling: true or false
+          enabled: true,
           // Scrolling speed (pixels per second)
           speed: 80,
           // Gap between repeated messages (px)
-          gap: 30,
+          gap: 5,
         },
       };
 
@@ -235,6 +239,25 @@
         const animClass = getBarAnimationClass();
         if (animClass) {
           barEl.classList.add(animClass);
+        }
+
+        // Apply alignment for single message mode
+        const topRow = barEl.querySelector(".rolling-v3-top-row");
+        if (topRow) {
+          if (CONFIG.message.type === "single") {
+            const alignMap = {
+              left: "flex-start",
+              center: "center",
+              right: "flex-end",
+            };
+            topRow.style.justifyContent =
+              alignMap[CONFIG.bar.contentAlignment] || "center";
+          } else {
+            // Reset to default for rolling (or handle mobile/desktop diffs via CSS)
+            // For rolling, we usually want it to take full width, but the CSS handles it.
+            // We can clear the inline style to let CSS take over.
+            topRow.style.justifyContent = "";
+          }
         }
 
         // Add click handler for clickable bar
@@ -329,12 +352,35 @@
         );
         if (!scrollingContentV3) return;
 
+        // Reset content to single message first (cleanup clones)
+        // We need to preserve at least one message element
+        const firstMessage =
+          scrollingContentV3.querySelector(".scrolling-message");
+        if (firstMessage) {
+          // Clone the first message to ensure we have a clean copy
+          const cleanMessage = firstMessage.cloneNode(true);
+          scrollingContentV3.innerHTML = "";
+          scrollingContentV3.appendChild(cleanMessage);
+        }
+
         const messageV3 =
           scrollingContentV3.querySelector(".scrolling-message");
         const containerV3 = scrollingContentV3.parentElement;
 
         // Apply message styles first
         renderMessage();
+
+        // Check for single message type
+        if (CONFIG.message.type === "single") {
+          containerV3.style.flex = "0 1 auto";
+          containerV3.style.minWidth = "auto";
+          scrollingContentV3.style.animation = "none";
+          return;
+        }
+
+        // Rolling logic
+        containerV3.style.flex = "1";
+        containerV3.style.minWidth = "150px";
 
         // Get the width of a single message
         const messageWidth = messageV3.offsetWidth;
