@@ -19,6 +19,14 @@
 
       let CONFIG = null;
 
+      // Font size multipliers relative to base (1rem = 16px)
+      const SIZE_CLASSES = {
+        small: "size-small",
+        normal: "size-normal",
+        large: "size-large",
+        "very-large": "size-very-large",
+      };
+
       // Load config from JSON file
       async function loadConfig() {
         try {
@@ -79,13 +87,23 @@
         const barEl = document.getElementById("flexibar-announcement-bar");
         if (!barEl) return;
 
+        // Apply font size class (default to 'normal' if not set)
+        const sizeOption = CONFIG.bar.fontSize || "normal";
+        const sizeClass = SIZE_CLASSES[sizeOption] || SIZE_CLASSES.normal;
+
+        // Remove any existing size classes and add the new one
+        Object.values(SIZE_CLASSES).forEach((cls) =>
+          barEl.classList.remove(cls)
+        );
+        barEl.classList.add(sizeClass);
+
         // Apply bar styles
         barEl.style.background = getBarBackground();
-        barEl.style.padding = `${CONFIG.bar.padding}px ${CONFIG.bar.padding}px`;
-        barEl.style.borderWidth = `${CONFIG.bar.border.width}px`;
+        barEl.style.padding = `${CONFIG.bar.padding}rem`;
+        barEl.style.borderWidth = `${CONFIG.bar.border.width}rem`;
         barEl.style.borderStyle = CONFIG.bar.border.style;
         barEl.style.borderColor = CONFIG.bar.border.color;
-        barEl.style.borderRadius = `${CONFIG.bar.border.radius}px`;
+        barEl.style.borderRadius = `${CONFIG.bar.border.radius}rem`;
         barEl.style.cursor = CONFIG.bar.clickable.enabled
           ? "pointer"
           : "default";
@@ -142,10 +160,11 @@
         messageEls.forEach((el) => {
           el.innerHTML = CONFIG.message.title.text;
           el.style.color = CONFIG.message.fontColor;
-          el.style.fontSize = `${CONFIG.message.fontSize}px`;
+          // Font size is inherited from the bar's base size
+          el.style.fontSize = `var(--flexibar-base-size)`;
           el.style.fontFamily = CONFIG.message.fontFamily;
           el.style.fontWeight = CONFIG.message.fontWeight;
-          el.style.paddingRight = `${CONFIG.scrolling.gap}px`;
+          el.style.paddingRight = `${CONFIG.scrolling.gap}rem`;
         });
       }
 
@@ -160,9 +179,10 @@
           el.textContent = CONFIG.button.text;
           el.style.color = CONFIG.button.textColor;
           el.style.backgroundColor = CONFIG.button.backgroundColor;
-          el.style.borderRadius = `${CONFIG.button.borderRadius}px`;
-          el.style.padding = `${CONFIG.button.paddingY}px ${CONFIG.button.paddingX}px`;
-          el.style.fontSize = `${CONFIG.button.fontSize}px`;
+          el.style.borderRadius = `${CONFIG.button.borderRadius}rem`;
+          el.style.padding = `${CONFIG.button.paddingY}rem ${CONFIG.button.paddingX}rem`;
+          // Font size is inherited from the bar's base size
+          el.style.fontSize = `var(--flexibar-base-size)`;
           el.href = CONFIG.button.url;
           el.target = CONFIG.button.openWith;
 
@@ -192,7 +212,8 @@
         [desktopCountdown, mobileCountdown].forEach((el) => {
           if (!el) return;
           el.style.fontFamily = CONFIG.countdown.fontFamily;
-          el.style.fontSize = `${CONFIG.countdown.fontSize}px`;
+          // Font size is inherited from the bar's base size
+          el.style.fontSize = `var(--flexibar-base-size)`;
           el.style.fontWeight = CONFIG.countdown.fontWeight;
         });
 
@@ -201,9 +222,9 @@
         countdownUnits.forEach((unit) => {
           unit.style.color = CONFIG.countdown.textColor;
           unit.style.backgroundColor = CONFIG.countdown.backgroundColor;
-          unit.style.borderRadius = `${CONFIG.countdown.borderRadius}px`;
-          unit.style.padding = `${CONFIG.countdown.padding}px`;
-          unit.style.boxShadow = `${CONFIG.countdown.shadowColor} 2px 4px 5px`;
+          unit.style.borderRadius = `${CONFIG.countdown.borderRadius}rem`;
+          unit.style.padding = `${CONFIG.countdown.padding}rem`;
+          unit.style.boxShadow = `${CONFIG.countdown.shadowColor} 0.125rem 0.25rem 0.3125rem`;
         });
       }
 
@@ -243,7 +264,7 @@
 
         // Rolling logic
         container.style.flex = "1";
-        container.style.minWidth = "150px";
+        container.style.minWidth = "9.375rem";
 
         // Get the width of a single message
         const messageWidth = messageEl.offsetWidth;

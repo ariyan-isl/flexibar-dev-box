@@ -6,7 +6,6 @@
     },
     "fontFamily": "Montserrat",
     "fontColor": "#ffffff",
-    "fontSize": 19,
     "fontWeight": 700
   },
   "link": {
@@ -19,13 +18,14 @@
     "position": "top",
     "animation": "animateLeft",
     "contentAlignment": "center",
+    "fontSize": "normal",
     "border": {
       "width": 0,
       "style": "solid",
       "color": "#333333",
       "radius": 0
     },
-    "padding": 5,
+    "padding": 0.3125,
     "clickable": {
       "enabled": false,
       "url": "",
@@ -44,13 +44,12 @@
     "text": "See Deal",
     "textColor": "#ffffff",
     "backgroundColor": "#D32F2F",
-    "borderRadius": 4,
+    "borderRadius": 0.25,
     "animation": "none",
     "url": "#",
     "openWith": "_blank",
-    "paddingX": 10,
-    "paddingY": 5,
-    "fontSize": 15
+    "paddingX": 0.625,
+    "paddingY": 0.3125
   },
   "countdown": {
     "enabled": true,
@@ -61,15 +60,14 @@
     "textColor": "#fffffe",
     "backgroundColor": "transparent",
     "shadowColor": "#D32F2F",
-    "fontSize": 20,
     "fontWeight": 700,
     "fontFamily": "Montserrat",
-    "borderRadius": 3,
-    "padding": 5
+    "borderRadius": 0.1875,
+    "padding": 0.3125
   },
   "scrolling": {
     "enabled": true,
     "speed": 80,
-    "gap": 5
+    "gap": 0.3125
   }
 }

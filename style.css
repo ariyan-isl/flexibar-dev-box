@@ -64,6 +64,46 @@ body {
   }
 }
 
+.flexibar-container {
+  /* Base font size - changes based on size setting */
+  --flexibar-base-size: 1rem; /* 16px - normal */
+}
+
+.flexibar-container.size-small {
+  --flexibar-base-size: 0.875rem; /* 14px */
+}
+
+.flexibar-container.size-normal {
+  --flexibar-base-size: 1rem; /* 16px */
+}
+
+.flexibar-container.size-large {
+  --flexibar-base-size: 1.125rem; /* 18px */
+}
+
+.flexibar-container.size-very-large {
+  --flexibar-base-size: 1.25rem; /* 20px */
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .flexibar-container.size-small {
+    --flexibar-base-size: 0.75rem; /* 12px */
+  }
+
+  .flexibar-container.size-normal {
+    --flexibar-base-size: 0.875rem; /* 14px */
+  }
+
+  .flexibar-container.size-large {
+    --flexibar-base-size: 1rem; /* 16px */
+  }
+
+  .flexibar-container.size-very-large {
+    --flexibar-base-size: 1.125rem; /* 18px */
+  }
+}
+
 /* Mobile: Message + Button on top, Countdown centered below */
 @media (max-width: 767px) {
   .flexibar-container {
