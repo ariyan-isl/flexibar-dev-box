@@ -140,7 +140,7 @@
       function renderMessage() {
         const messageEls = document.querySelectorAll(".message-text");
         messageEls.forEach((el) => {
-          el.innerHTML = CONFIG.message.text;
+          el.innerHTML = CONFIG.message.title.text;
           el.style.color = CONFIG.message.fontColor;
           el.style.fontSize = `${CONFIG.message.fontSize}px`;
           el.style.fontFamily = CONFIG.message.fontFamily;
