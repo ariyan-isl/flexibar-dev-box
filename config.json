@@ -1,69 +1,74 @@
 {
   "type": "single",
-  "message": {
-    "title": {
-      "text": "🎉 BLACK FRIDAY deals starts in 2 days! <a href=\"https://example.com\" class=\"link-style-underline\" target=\"_blank\">Shop Now</a>"
+  "design": {
+    "message": {
+      "fontFamily": "Montserrat",
+      "fontColor": "#ffffff",
+      "fontWeight": 700
     },
-    "fontFamily": "Montserrat",
-    "fontColor": "#ffffff",
-    "fontWeight": 700
-  },
-  "link": {
-    "text": "Shop Now",
-    "address": "https://example.com",
-    "style": "underline",
-    "openWith": "_blank"
-  },
-  "bar": {
-    "position": "top",
-    "animation": "animateLeft",
-    "contentAlignment": "center",
-    "fontSize": "normal",
-    "border": {
-      "width": 0,
-      "style": "solid",
-      "color": "#333333",
-      "radius": 0
+    "countdown": {
+      "textColor": "#fffffe",
+      "backgroundColor": "transparent",
+      "shadowColor": "#D32F2F",
+      "fontWeight": 700,
+      "fontFamily": "Montserrat",
+      "borderRadius": 0.1875,
+      "padding": 0.3125
     },
-    "padding": 0.3125,
-    "clickable": {
-      "enabled": false,
-      "url": "",
-      "openWith": "_blank"
+    "button": {
+      "textColor": "#ffffff",
+      "backgroundColor": "#D32F2F",
+      "borderRadius": 0.25,
+      "animation": "none",
+      "paddingX": 0.625,
+      "paddingY": 0.3125
     },
-    "backgroundType": "solid",
-    "backgroundColor": "#000000",
-    "gradient": {
-      "angle": 90,
-      "color1": "#000000",
-      "color2": "#333333"
+    "bar": {
+      "position": "top",
+      "animation": "animateLeft",
+      "contentAlignment": "center",
+      "fontSize": "normal",
+      "border": {
+        "width": 0,
+        "style": "solid",
+        "color": "#333333",
+        "radius": 0
+      },
+      "padding": 0.3125,
+      "clickable": {
+        "enabled": false,
+        "url": "",
+        "openWith": "_blank"
+      },
+      "backgroundType": "solid",
+      "backgroundColor": "#000000",
+      "gradient": {
+        "angle": 90,
+        "color1": "#000000",
+        "color2": "#333333"
+      }
     }
   },
-  "button": {
-    "enabled": true,
-    "text": "See Deal",
-    "textColor": "#ffffff",
-    "backgroundColor": "#D32F2F",
-    "borderRadius": 0.25,
-    "animation": "none",
-    "url": "#",
-    "openWith": "_blank",
-    "paddingX": 0.625,
-    "paddingY": 0.3125
-  },
-  "countdown": {
-    "enabled": true,
-    "targetDate": {
+  "content": {
+    "message": {
+      "title": "🎉 BLACK FRIDAY deals starts in 2 days! <a href=\"https://example.com\" class=\"link-style-underline\" target=\"_blank\">Shop Now</a>"
+    },
+    "countdown": {
       "startDate": "2025-12-03T00:00:00.000Z",
       "targetDate": "2025-12-13T00:00:00.000Z"
     },
-    "textColor": "#fffffe",
-    "backgroundColor": "transparent",
-    "shadowColor": "#D32F2F",
-    "fontWeight": 700,
-    "fontFamily": "Montserrat",
-    "borderRadius": 0.1875,
-    "padding": 0.3125
+    "button": {
+      "text": "See Deal",
+      "url": "#",
+      "openWith": "_blank"
+    }
+  },
+
+  "button": {
+    "enabled": true
+  },
+  "countdown": {
+    "enabled": true
   },
   "scrolling": {
     "enabled": true,

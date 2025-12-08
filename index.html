@@ -45,37 +45,49 @@
       // ============================================================
 
       function getBarBackground() {
-        if (CONFIG.bar.backgroundType === "gradient") {
-          return `linear-gradient(${CONFIG.bar.gradient.angle}deg, ${CONFIG.bar.gradient.color1}, ${CONFIG.bar.gradient.color2})`;
+        if (CONFIG.design.bar.backgroundType === "gradient") {
+          return `linear-gradient(${CONFIG.design.bar.gradient.angle}deg, ${CONFIG.design.bar.gradient.color1}, ${CONFIG.design.bar.gradient.color2})`;
         }
-        return CONFIG.bar.backgroundColor;
+        return CONFIG.design.bar.backgroundColor;
       }
 
       function getBarPositionClass() {
-        return CONFIG.bar.position || "";
+        return CONFIG.design.bar.position || "";
       }
 
       function getBarAnimationClass() {
-        if (CONFIG.bar.animation && CONFIG.bar.animation !== "none") {
-          return CONFIG.bar.animation;
+        if (
+          CONFIG.design.bar.animation &&
+          CONFIG.design.bar.animation !== "none"
+        ) {
+          return CONFIG.design.bar.animation;
         }
         return "";
       }
 
       function getButtonAnimationClass() {
-        if (CONFIG.button.animation && CONFIG.button.animation !== "none") {
-          return CONFIG.button.animation;
+        if (
+          CONFIG.design.button.animation &&
+          CONFIG.design.button.animation !== "none"
+        ) {
+          return CONFIG.design.button.animation;
         }
         return "";
       }
 
       function handleBarClick(e) {
-        if (CONFIG.bar.clickable.enabled && CONFIG.bar.clickable.url) {
+        if (
+          CONFIG.design.bar.clickable.enabled &&
+          CONFIG.design.bar.clickable.url
+        ) {
           // Don't trigger if clicking on button or link
           if (e.target.closest(".flexibar-button") || e.target.closest("a")) {
             return;
           }
-          window.open(CONFIG.bar.clickable.url, CONFIG.bar.clickable.openWith);
+          window.open(
+            CONFIG.design.bar.clickable.url,
+            CONFIG.design.bar.clickable.openWith
+          );
         }
       }
 
@@ -88,7 +100,7 @@
         if (!barEl) return;
 
         // Apply font size class (default to 'normal' if not set)
-        const sizeOption = CONFIG.bar.fontSize || "normal";
+        const sizeOption = CONFIG.design.bar.fontSize || "normal";
         const sizeClass = SIZE_CLASSES[sizeOption] || SIZE_CLASSES.normal;
 
         // Remove any existing size classes and add the new one
@@ -99,19 +111,19 @@
 
         // Apply bar styles
         barEl.style.background = getBarBackground();
-        barEl.style.padding = `${CONFIG.bar.padding}rem`;
-        barEl.style.borderWidth = `${CONFIG.bar.border.width}rem`;
-        barEl.style.borderStyle = CONFIG.bar.border.style;
-        barEl.style.borderColor = CONFIG.bar.border.color;
-        barEl.style.borderRadius = `${CONFIG.bar.border.radius}rem`;
-        barEl.style.cursor = CONFIG.bar.clickable.enabled
+        barEl.style.padding = `${CONFIG.design.bar.padding}rem`;
+        barEl.style.borderWidth = `${CONFIG.design.bar.border.width}rem`;
+        barEl.style.borderStyle = CONFIG.design.bar.border.style;
+        barEl.style.borderColor = CONFIG.design.bar.border.color;
+        barEl.style.borderRadius = `${CONFIG.design.bar.border.radius}rem`;
+        barEl.style.cursor = CONFIG.design.bar.clickable.enabled
           ? "pointer"
           : "default";
 
         // Handle DOM placement for bottom positions
         if (
-          CONFIG.bar.position === "bottom" ||
-          CONFIG.bar.position === "sticky-bottom"
+          CONFIG.design.bar.position === "bottom" ||
+          CONFIG.design.bar.position === "sticky-bottom"
         ) {
           document.body.appendChild(barEl);
         } else {
@@ -140,7 +152,7 @@
               right: "flex-end",
             };
             topRow.style.justifyContent =
-              alignMap[CONFIG.bar.contentAlignment] || "center";
+              alignMap[CONFIG.design.bar.contentAlignment] || "center";
           } else {
             // Reset to default for rolling (or handle mobile/desktop diffs via CSS)
             // For rolling, we usually want it to take full width, but the CSS handles it.
@@ -150,7 +162,7 @@
         }
 
         // Add click handler for clickable bar
-        if (CONFIG.bar.clickable.enabled) {
+        if (CONFIG.design.bar.clickable.enabled) {
           barEl.addEventListener("click", handleBarClick);
         }
       }
@@ -158,12 +170,12 @@
       function renderMessage() {
         const messageEls = document.querySelectorAll(".message-text");
         messageEls.forEach((el) => {
-          el.innerHTML = CONFIG.message.title.text;
-          el.style.color = CONFIG.message.fontColor;
+          el.innerHTML = CONFIG.content.message.title;
+          el.style.color = CONFIG.design.message.fontColor;
           // Font size is inherited from the bar's base size
           el.style.fontSize = `var(--flexibar-base-size)`;
-          el.style.fontFamily = CONFIG.message.fontFamily;
-          el.style.fontWeight = CONFIG.message.fontWeight;
+          el.style.fontFamily = CONFIG.design.message.fontFamily;
+          el.style.fontWeight = CONFIG.design.message.fontWeight;
           el.style.paddingRight = `${CONFIG.scrolling.gap}rem`;
         });
       }
@@ -176,15 +188,15 @@
             return;
           }
           el.style.display = "inline-flex";
-          el.textContent = CONFIG.button.text;
-          el.style.color = CONFIG.button.textColor;
-          el.style.backgroundColor = CONFIG.button.backgroundColor;
-          el.style.borderRadius = `${CONFIG.button.borderRadius}rem`;
-          el.style.padding = `${CONFIG.button.paddingY}rem ${CONFIG.button.paddingX}rem`;
+          el.textContent = CONFIG.content.button.text;
+          el.style.color = CONFIG.design.button.textColor;
+          el.style.backgroundColor = CONFIG.design.button.backgroundColor;
+          el.style.borderRadius = `${CONFIG.design.button.borderRadius}rem`;
+          el.style.padding = `${CONFIG.design.button.paddingY}rem ${CONFIG.design.button.paddingX}rem`;
           // Font size is inherited from the bar's base size
           el.style.fontSize = `var(--flexibar-base-size)`;
-          el.href = CONFIG.button.url;
-          el.target = CONFIG.button.openWith;
+          el.href = CONFIG.content.button.url;
+          el.target = CONFIG.content.button.openWith;
 
           // Apply animation class
           const animClass = getButtonAnimationClass();
@@ -211,20 +223,20 @@
         // Apply styles to both desktop and mobile countdowns
         [desktopCountdown, mobileCountdown].forEach((el) => {
           if (!el) return;
-          el.style.fontFamily = CONFIG.countdown.fontFamily;
+          el.style.fontFamily = CONFIG.design.countdown.fontFamily;
           // Font size is inherited from the bar's base size
           el.style.fontSize = `var(--flexibar-base-size)`;
-          el.style.fontWeight = CONFIG.countdown.fontWeight;
+          el.style.fontWeight = CONFIG.design.countdown.fontWeight;
         });
 
         // Apply styles to countdown units
         const countdownUnits = document.querySelectorAll(".countdown-unit");
         countdownUnits.forEach((unit) => {
-          unit.style.color = CONFIG.countdown.textColor;
-          unit.style.backgroundColor = CONFIG.countdown.backgroundColor;
-          unit.style.borderRadius = `${CONFIG.countdown.borderRadius}rem`;
-          unit.style.padding = `${CONFIG.countdown.padding}rem`;
-          unit.style.boxShadow = `${CONFIG.countdown.shadowColor} 0.125rem 0.25rem 0.3125rem`;
+          unit.style.color = CONFIG.design.countdown.textColor;
+          unit.style.backgroundColor = CONFIG.design.countdown.backgroundColor;
+          unit.style.borderRadius = `${CONFIG.design.countdown.borderRadius}rem`;
+          unit.style.padding = `${CONFIG.design.countdown.padding}rem`;
+          unit.style.boxShadow = `${CONFIG.design.countdown.shadowColor} 0.125rem 0.25rem 0.3125rem`;
         });
       }
 
@@ -301,7 +313,7 @@
       function runCountdown() {
         if (!CONFIG.countdown.enabled) return;
 
-        const targetDate = new Date(CONFIG.countdown.targetDate.targetDate);
+        const targetDate = new Date(CONFIG.content.countdown.targetDate);
 
         function updateCountdown() {
           const now = new Date();
