@@ -30,11 +30,26 @@
         "very-large": "size-very-large",
       };
 
+      // Get query parameters
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
       // Load config from JSON file
       async function loadConfig() {
         try {
           const response = await fetch("config.json");
           CONFIG = await response.json();
+
+          // Override type from query parameter if provided
+          const typeParam = getQueryParam("type");
+          if (
+            typeParam &&
+            ["single", "rolling", "multiple"].includes(typeParam)
+          ) {
+            CONFIG.type = typeParam;
+          }
 
           // Initialize the bar after config is loaded
           initializeFlexibar();
