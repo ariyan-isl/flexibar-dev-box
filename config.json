@@ -1,5 +1,5 @@
 {
-  "type": "single",
+  "type": "multiple",
   "design": {
     "message": {
       "fontFamily": "Montserrat",
@@ -50,18 +50,47 @@
     }
   },
   "content": {
-    "message": {
-      "title": "🎉 BLACK FRIDAY deals starts in 2 days! <a href=\"https://example.com\" class=\"link-style-underline\" target=\"_blank\">Shop Now</a>"
-    },
-    "countdown": {
-      "startDate": "2025-12-03T00:00:00.000Z",
-      "targetDate": "2025-12-13T00:00:00.000Z"
-    },
-    "button": {
-      "text": "See Deal",
-      "url": "#",
-      "openWith": "_blank"
-    }
+    "messages": [
+      {
+        "message": {
+          "title": "🎉 BLACK FRIDAY deals starts in 2 days! <a href=\"https://example.com\" class=\"link-style-underline\" target=\"_blank\">Shop Now</a>"
+        },
+        "button": {
+          "text": "See Deal",
+          "url": "#",
+          "openWith": "_blank"
+        },
+        "countdown": {
+          "targetDate": "2025-12-13T00:00:00.000Z"
+        }
+      },
+      {
+        "message": {
+          "title": "🚀 Free shipping on orders over $50!"
+        },
+        "button": {
+          "text": "Shop Now",
+          "url": "#shipping",
+          "openWith": "_blank"
+        },
+        "countdown": {
+          "targetDate": "2025-12-15T00:00:00.000Z"
+        }
+      },
+      {
+        "message": {
+          "title": "⏰ Flash Sale: 24 hours only! Up to 70% OFF"
+        },
+        "button": {
+          "text": "Get Offer",
+          "url": "#flash-sale",
+          "openWith": "_blank"
+        },
+        "countdown": {
+          "targetDate": "2025-12-09T23:59:59.000Z"
+        }
+      }
+    ]
   },
 
   "button": {

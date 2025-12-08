@@ -18,6 +18,9 @@
       // ============================================================
 
       let CONFIG = null;
+      let slideshowInterval = null;
+      let currentSlideIndex = 0;
+      let isPaused = false;
 
       // Font size multipliers relative to base (1rem = 16px)
       const SIZE_CLASSES = {
@@ -91,6 +94,27 @@
         }
       }
 
+      // Get messages array with backward compatibility
+      function getMessagesArray() {
+        // New structure: content.messages is an array
+        if (CONFIG.content.messages && Array.isArray(CONFIG.content.messages)) {
+          return CONFIG.content.messages;
+        }
+        // Backward compatibility: wrap single message/button in array
+        return [
+          {
+            message: CONFIG.content.message,
+            button: CONFIG.content.button,
+          },
+        ];
+      }
+
+      // Get current message content
+      function getCurrentMessageContent(index = 0) {
+        const messages = getMessagesArray();
+        return messages[index] || messages[0];
+      }
+
       // ============================================================
       // RENDER FUNCTIONS
       // ============================================================
@@ -142,10 +166,10 @@
           barEl.classList.add(animClass);
         }
 
-        // Apply alignment for single message mode
+        // Apply alignment for single/multiple message mode
         const topRow = barEl.querySelector(".flexibar-content-row");
         if (topRow) {
-          if (CONFIG.type === "single") {
+          if (CONFIG.type === "single" || CONFIG.type === "multiple") {
             const alignMap = {
               left: "flex-start",
               center: "center",
@@ -168,9 +192,14 @@
       }
 
       function renderMessage() {
+        // For multiple type, messages are rendered in initSlideshow
+        if (CONFIG.type === "multiple") return;
+
         const messageEls = document.querySelectorAll(".message-text");
+        const content = getCurrentMessageContent(0);
+
         messageEls.forEach((el) => {
-          el.innerHTML = CONFIG.content.message.title;
+          el.innerHTML = content.message.title;
           el.style.color = CONFIG.design.message.fontColor;
           // Font size is inherited from the bar's base size
           el.style.fontSize = `var(--flexibar-base-size)`;
@@ -180,23 +209,37 @@
         });
       }
 
-      function renderButton() {
+      function applyMessageStyles(el) {
+        el.style.color = CONFIG.design.message.fontColor;
+        el.style.fontSize = `var(--flexibar-base-size)`;
+        el.style.fontFamily = CONFIG.design.message.fontFamily;
+        el.style.fontWeight = CONFIG.design.message.fontWeight;
+      }
+
+      function renderButton(slideIndex = 0) {
         const buttonEls = document.querySelectorAll(".flexibar-button");
+        const content = getCurrentMessageContent(slideIndex);
+
         buttonEls.forEach((el) => {
           if (!CONFIG.button.enabled) {
             el.style.display = "none";
             return;
           }
           el.style.display = "inline-flex";
-          el.textContent = CONFIG.content.button.text;
+
+          // Use button content from current slide if available
+          const buttonContent = content.button || {};
+          el.textContent = buttonContent.text || "Learn More";
+          el.href = buttonContent.url || "#";
+          el.target = buttonContent.openWith || "_blank";
+
+          // Apply design styles
           el.style.color = CONFIG.design.button.textColor;
           el.style.backgroundColor = CONFIG.design.button.backgroundColor;
           el.style.borderRadius = `${CONFIG.design.button.borderRadius}rem`;
           el.style.padding = `${CONFIG.design.button.paddingY}rem ${CONFIG.design.button.paddingX}rem`;
           // Font size is inherited from the bar's base size
           el.style.fontSize = `var(--flexibar-base-size)`;
-          el.href = CONFIG.content.button.url;
-          el.target = CONFIG.content.button.openWith;
 
           // Apply animation class
           const animClass = getButtonAnimationClass();
@@ -263,6 +306,15 @@
         const messageEl = scrollingContent.querySelector(".message-text");
         const container = scrollingContent.parentElement;
 
+        // Check for multiple message type (slideshow)
+        if (CONFIG.type === "multiple") {
+          container.style.flex = "0 1 auto";
+          container.style.minWidth = "auto";
+          scrollingContent.style.animation = "none";
+          initSlideshow();
+          return;
+        }
+
         // Apply message styles first
         renderMessage();
 
@@ -307,66 +359,245 @@
       }
 
       // ============================================================
+      // SLIDESHOW (MULTIPLE TYPE)
+      // ============================================================
+
+      function initSlideshow() {
+        const scrollingContent = document.getElementById(
+          "message-scroll-content"
+        );
+        if (!scrollingContent) return;
+
+        const messages = getMessagesArray();
+        if (messages.length === 0) return;
+
+        // Clear existing content and add slideshow mode class
+        scrollingContent.innerHTML = "";
+        scrollingContent.classList.add("slideshow-mode");
+
+        // Create slide elements
+        messages.forEach((msgContent, index) => {
+          const slide = document.createElement("div");
+          slide.className = "flexibar-slide";
+          slide.innerHTML = msgContent.message.title;
+          slide.dataset.index = index;
+          applyMessageStyles(slide);
+
+          if (index === 0) {
+            slide.classList.add("active");
+          }
+
+          scrollingContent.appendChild(slide);
+        });
+
+        // Create navigation arrows
+        if (messages.length > 1) {
+          createNavigationArrows();
+        }
+
+        // Render button for first slide
+        renderButton(0);
+
+        // Start auto-advance if more than one message
+        if (messages.length > 1) {
+          startSlideshow();
+
+          // Add hover listeners for pause/resume
+          const barEl = document.getElementById("flexibar-announcement-bar");
+          if (barEl) {
+            barEl.addEventListener("mouseenter", pauseSlideshow);
+            barEl.addEventListener("mouseleave", resumeSlideshow);
+          }
+        }
+      }
+
+      function createNavigationArrows() {
+        const contentRow = document.querySelector(".flexibar-content-row");
+        if (!contentRow) return;
+
+        // Remove existing arrows if any
+        const existingPrev = contentRow.querySelector(".flexibar-nav-prev");
+        const existingNext = contentRow.querySelector(".flexibar-nav-next");
+        if (existingPrev) existingPrev.remove();
+        if (existingNext) existingNext.remove();
+
+        // Create prev arrow
+        const prevArrow = document.createElement("button");
+        prevArrow.className = "flexibar-nav-arrow flexibar-nav-prev";
+        prevArrow.innerHTML = "&#8249;"; // ‹ left angle bracket
+        prevArrow.setAttribute("aria-label", "Previous message");
+        prevArrow.addEventListener("click", prevSlide);
+
+        // Create next arrow
+        const nextArrow = document.createElement("button");
+        nextArrow.className = "flexibar-nav-arrow flexibar-nav-next";
+        nextArrow.innerHTML = "&#8250;"; // › right angle bracket
+        nextArrow.setAttribute("aria-label", "Next message");
+        nextArrow.addEventListener("click", nextSlide);
+
+        // Insert prev arrow at the beginning
+        contentRow.insertBefore(prevArrow, contentRow.firstChild);
+
+        // Append next arrow at the end
+        contentRow.appendChild(nextArrow);
+      }
+
+      function goToSlide(index) {
+        const slides = document.querySelectorAll(".flexibar-slide");
+        const messages = getMessagesArray();
+
+        if (index < 0 || index >= slides.length) return;
+
+        // Update current index
+        currentSlideIndex = index;
+
+        // Update slide visibility
+        slides.forEach((slide, i) => {
+          slide.classList.toggle("active", i === index);
+        });
+
+        // Update button content for current slide
+        renderButton(index);
+
+        // Update countdown for current slide
+        restartCountdown();
+
+        // Reset interval timer if slideshow is running
+        if (!isPaused && slideshowInterval) {
+          clearInterval(slideshowInterval);
+          startSlideshow();
+        }
+      }
+
+      function prevSlide() {
+        const messages = getMessagesArray();
+        const prevIndex =
+          (currentSlideIndex - 1 + messages.length) % messages.length;
+        goToSlide(prevIndex);
+      }
+
+      function nextSlide() {
+        const messages = getMessagesArray();
+        const nextIndex = (currentSlideIndex + 1) % messages.length;
+        goToSlide(nextIndex);
+      }
+
+      function startSlideshow() {
+        if (slideshowInterval) clearInterval(slideshowInterval);
+        slideshowInterval = setInterval(nextSlide, 5000); // 5 second interval
+      }
+
+      function pauseSlideshow() {
+        isPaused = true;
+        if (slideshowInterval) {
+          clearInterval(slideshowInterval);
+          slideshowInterval = null;
+        }
+      }
+
+      function resumeSlideshow() {
+        isPaused = false;
+        const messages = getMessagesArray();
+        if (messages.length > 1) {
+          startSlideshow();
+        }
+      }
+
+      // ============================================================
       // COUNTDOWN TIMER
       // ============================================================
+
+      let countdownInterval = null;
+
+      function getCountdownTargetDate(slideIndex = 0) {
+        // If in multiple type, get countdown from current slide
+        if (CONFIG.type === "multiple") {
+          const messages = getMessagesArray();
+          const currentMessage = messages[slideIndex];
+          if (currentMessage && currentMessage.countdown) {
+            return new Date(currentMessage.countdown.targetDate);
+          }
+        }
+
+        // Fallback to backward compatibility for single/rolling
+        if (CONFIG.content.countdown) {
+          return new Date(CONFIG.content.countdown.targetDate);
+        }
+
+        return null;
+      }
+
+      function updateCountdownDisplay(targetDate) {
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+          // Countdown finished
+          const elements = ["days", "hours", "minutes", "seconds"];
+          elements.forEach((el) => {
+            const desktopEl = document.getElementById(
+              `countdown-${el}-desktop`
+            );
+            const mobileEl = document.getElementById(`countdown-${el}-mobile`);
+            if (desktopEl) desktopEl.textContent = "00";
+            if (mobileEl) mobileEl.textContent = "00";
+          });
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        // Desktop countdown
+        document.getElementById("countdown-days-desktop").textContent = String(
+          days
+        ).padStart(2, "0");
+        document.getElementById("countdown-hours-desktop").textContent = String(
+          hours
+        ).padStart(2, "0");
+        document.getElementById("countdown-minutes-desktop").textContent =
+          String(minutes).padStart(2, "0");
+        document.getElementById("countdown-seconds-desktop").textContent =
+          String(seconds).padStart(2, "0");
+
+        // Mobile countdown
+        document.getElementById("countdown-days-mobile").textContent = String(
+          days
+        ).padStart(2, "0");
+        document.getElementById("countdown-hours-mobile").textContent = String(
+          hours
+        ).padStart(2, "0");
+        document.getElementById("countdown-minutes-mobile").textContent =
+          String(minutes).padStart(2, "0");
+        document.getElementById("countdown-seconds-mobile").textContent =
+          String(seconds).padStart(2, "0");
+      }
 
       function runCountdown() {
         if (!CONFIG.countdown.enabled) return;
 
-        const targetDate = new Date(CONFIG.content.countdown.targetDate);
-
-        function updateCountdown() {
-          const now = new Date();
-          const diff = targetDate - now;
-
-          if (diff <= 0) {
-            // Countdown finished
-            const elements = ["days", "hours", "minutes", "seconds"];
-            elements.forEach((el) => {
-              const desktopEl = document.getElementById(
-                `countdown-${el}-desktop`
-              );
-              const mobileEl = document.getElementById(
-                `countdown-${el}-mobile`
-              );
-              if (desktopEl) desktopEl.textContent = "00";
-              if (mobileEl) mobileEl.textContent = "00";
-            });
-            return;
+        const updateCountdown = () => {
+          const targetDate = getCountdownTargetDate(currentSlideIndex);
+          if (targetDate) {
+            updateCountdownDisplay(targetDate);
           }
-
-          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-          const hours = Math.floor(
-            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          );
-          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-          // Desktop countdown
-          document.getElementById("countdown-days-desktop").textContent =
-            String(days).padStart(2, "0");
-          document.getElementById("countdown-hours-desktop").textContent =
-            String(hours).padStart(2, "0");
-          document.getElementById("countdown-minutes-desktop").textContent =
-            String(minutes).padStart(2, "0");
-          document.getElementById("countdown-seconds-desktop").textContent =
-            String(seconds).padStart(2, "0");
-
-          // Mobile countdown
-          document.getElementById("countdown-days-mobile").textContent = String(
-            days
-          ).padStart(2, "0");
-          document.getElementById("countdown-hours-mobile").textContent =
-            String(hours).padStart(2, "0");
-          document.getElementById("countdown-minutes-mobile").textContent =
-            String(minutes).padStart(2, "0");
-          document.getElementById("countdown-seconds-mobile").textContent =
-            String(seconds).padStart(2, "0");
-        }
+        };
 
         // Update immediately and then every second
         updateCountdown();
-        setInterval(updateCountdown, 1000);
+        if (countdownInterval) clearInterval(countdownInterval);
+        countdownInterval = setInterval(updateCountdown, 1000);
+      }
+
+      function restartCountdown() {
+        // Called when slide changes to update countdown for new slide
+        if (CONFIG.countdown.enabled) {
+          runCountdown();
+        }
       }
 
       // ============================================================

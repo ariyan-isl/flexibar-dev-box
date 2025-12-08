@@ -374,6 +374,76 @@ body {
 }
 
 /* Slideshow Styles */
+.message-content.slideshow-mode {
+  position: relative;
+  width: 100%;
+  min-height: 1.5em;
+}
+
+.flexibar-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.5s ease-in-out,
+    visibility 0.5s ease-in-out;
+  white-space: nowrap;
+}
+
+.flexibar-slide.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Navigation Dots */
+.flexibar-dots {
+  display: none;
+}
+
+/* Navigation Arrows */
+.flexibar-nav-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+  opacity: 1;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.flexibar-nav-arrow:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.flexibar-nav-prev {
+  margin-right: auto;
+}
+
+.flexibar-nav-next {
+  margin-left: auto;
+}
+
+/* Pause on hover */
+.flexibar-container:hover .slideshow-mode {
+  /* This class is used by JS to detect hover state */
+}
+
+/* Legacy slideshow classes (kept for backward compatibility) */
 .flexibar-slideshow-slide {
   opacity: 0;
   display: none;
