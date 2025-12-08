@@ -93,11 +93,9 @@
     ]
   },
 
-  "button": {
-    "enabled": true
-  },
-  "countdown": {
-    "enabled": true
+  "options": {
+    "button": true,
+    "countdown": true
   },
   "scrolling": {
     "enabled": true,

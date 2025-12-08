@@ -236,7 +236,7 @@
         const content = getCurrentMessageContent(slideIndex);
 
         buttonEls.forEach((el) => {
-          if (!CONFIG.button.enabled) {
+          if (!CONFIG.options.button) {
             el.style.display = "none";
             return;
           }
@@ -269,7 +269,7 @@
         const mobileCountdown = document.getElementById("countdown-mobile");
         const countdownRow = document.querySelector(".flexibar-countdown-row");
 
-        if (!CONFIG.countdown.enabled) {
+        if (!CONFIG.options.countdown) {
           if (desktopCountdown) desktopCountdown.style.display = "none";
           // Use setProperty with 'important' to override the CSS media query
           if (countdownRow)
@@ -593,7 +593,7 @@
       }
 
       function runCountdown() {
-        if (!CONFIG.countdown.enabled) return;
+        if (!CONFIG.options.countdown) return;
 
         const updateCountdown = () => {
           const targetDate = getCountdownTargetDate(currentSlideIndex);
@@ -610,7 +610,7 @@
 
       function restartCountdown() {
         // Called when slide changes to update countdown for new slide
-        if (CONFIG.countdown.enabled) {
+        if (CONFIG.options.countdown) {
           runCountdown();
         }
       }
