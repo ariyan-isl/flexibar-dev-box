@@ -133,7 +133,7 @@
         // Apply alignment for single message mode
         const topRow = barEl.querySelector(".flexibar-content-row");
         if (topRow) {
-          if (CONFIG.message.type === "single") {
+          if (CONFIG.type === "single") {
             const alignMap = {
               left: "flex-start",
               center: "center",
@@ -255,7 +255,7 @@
         renderMessage();
 
         // Check for single message type
-        if (CONFIG.message.type === "single") {
+        if (CONFIG.type === "single") {
           container.style.flex = "0 1 auto";
           container.style.minWidth = "auto";
           scrollingContent.style.animation = "none";

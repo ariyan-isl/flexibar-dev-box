@@ -1,6 +1,6 @@
 {
+  "type": "single",
   "message": {
-    "type": "rolling",
     "title": {
       "text": "🎉 BLACK FRIDAY deals starts in 2 days! <a href=\"https://example.com\" class=\"link-style-underline\" target=\"_blank\">Shop Now</a>"
     },
