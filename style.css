@@ -119,6 +119,9 @@ body {
   .flexibar-countdown-row {
     display: flex !important;
   }
+  .flexibar-nav-arrow {
+    display: none !important;
+  }
 }
 
 /* Link styles */
@@ -398,18 +401,12 @@ body {
   opacity: 1;
   visibility: visible;
 }
-
-/* Navigation Dots */
-.flexibar-dots {
-  display: none;
-}
-
 /* Navigation Arrows */
 .flexibar-nav-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
+  width: 12px;
   height: 32px;
   background: transparent;
   border: none;
@@ -436,11 +433,6 @@ body {
 
 .flexibar-nav-next {
   margin-left: auto;
-}
-
-/* Pause on hover */
-.flexibar-container:hover .slideshow-mode {
-  /* This class is used by JS to detect hover state */
 }
 
 /* Legacy slideshow classes (kept for backward compatibility) */
