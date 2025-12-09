@@ -2,85 +2,122 @@
 
 This file documents all available configuration options in `config.json`.
 
-## 1. MESSAGE SETTINGS
+## 1. TYPE SETTINGS
 
-Configuration for the announcement message text and styling.
-
-### `message.type`
+### `type`
 
 - **Type:** String
-- **Options:** `"rolling"` | `"single"`
+- **Options:** `"single"` | `"rolling"` | `"multiple"`
 - **Description:**
-  - `"rolling"`: Message scrolls continuously across the bar
   - `"single"`: Message displays statically without scrolling
+  - `"rolling"`: Message scrolls continuously across the bar
+  - `"multiple"`: Multiple messages rotate in a slideshow with navigation arrows
 
-### `message.text`
+---
 
-- **Type:** String (HTML allowed)
-- **Description:** The announcement message text. Can include HTML tags like `<a>` for links.
-- **Example:** `"🎉 BLACK FRIDAY deals starts in 2 days! <a href=\"https://example.com\" class=\"link-style-underline\" target=\"_blank\">Shop Now</a>"`
+## 2. OPTIONS
 
-### `message.fontFamily`
+### `options.button`
+
+- **Type:** Boolean
+- **Options:** `true` | `false`
+- **Description:** Whether to show the call-to-action button
+
+### `options.countdown`
+
+- **Type:** Boolean
+- **Options:** `true` | `false`
+- **Description:** Whether to show the countdown timer
+
+---
+
+## 3. CONTENT SETTINGS
+
+### 3.1 GENERAL SETTINGS
+
+Applies to all text elements in the bar.
+
+#### `content.general.fontFamily`
 
 - **Type:** String
 - **Options:** `"Montserrat"`, `"Roboto"`, `"Open Sans"`, `"Lato"`, `"Poppins"`, or any Google Font
 - **Description:** Font family for the message text
 
-### `message.fontColor`
+#### `content.general.fontColor`
 
 - **Type:** String (Hex color)
 - **Description:** Text color in hexadecimal format
 - **Example:** `"#ffffff"` (white)
 
-### `message.fontSize`
+#### `content.general.fontSize`
 
-- **Type:** Number
-- **Unit:** Pixels
-- **Description:** Font size of the message text
+- **Type:** String
+- **Options:** `"small"`, `"normal"`, `"large"`, `"very-large"`
+- **Description:** Base font size for the bar content
 
-### `message.fontWeight`
+#### `content.general.fontWeight`
 
 - **Type:** Number
 - **Options:** `100`, `200`, `300`, `400`, `500`, `600`, `700`, `800`, `900`
 - **Description:** Font weight (thickness) of the text
 
----
+### 3.2 MESSAGE SETTINGS
 
-## 2. LINK SETTINGS
+#### `content.message`
 
-Configuration for links within the message (if using inline link builder).
+- **Type:** Object
+- **Description:** Reserved for future message-specific styling. Currently can be left empty or with placeholder properties.
 
-### `link.text`
+### 3.3 COUNTDOWN SETTINGS
+
+#### `content.countdown.textColor`
+
+- **Type:** String (Hex color)
+- **Description:** Countdown text color
+
+#### `content.countdown.backgroundColor`
+
+- **Type:** String (Hex color or `"transparent"`)
+- **Description:** Background color for each countdown unit box
+
+#### `content.countdown.shadowColor`
+
+- **Type:** String (Hex color)
+- **Description:** Box shadow color for countdown units
+
+**Note:** Countdown border radius and padding are controlled in `style.css` via the `.countdown-unit` class.
+
+### 3.4 BUTTON SETTINGS
+
+#### `content.button.textColor`
+
+- **Type:** String (Hex color)
+- **Description:** Button text color
+
+#### `content.button.backgroundColor`
+
+- **Type:** String (Hex color)
+- **Description:** Button background color
+
+#### `content.button.borderRadius`
+
+- **Type:** Number
+- **Unit:** rem
+- **Description:** Button corner radius (rounded corners)
+
+#### `content.button.animation`
 
 - **Type:** String
-- **Description:** Link text to display
+- **Options:** `"none"`, `"bounce"`, `"flash"`, `"rubberBand"`, `"emit"`, `"swing"`, `"shake"`, `"pulse"`
+- **Description:** Animation effect for the button
 
-### `link.address`
+**Note:** Button padding is controlled in `style.css` via the `.flexibar-button` class.
 
-- **Type:** String (URL)
-- **Description:** URL where the link points
-
-### `link.style`
-
-- **Type:** String
-- **Options:** `"none"`, `"underline"`, `"bold"`, `"italic"`
-- **Description:** Visual style of the link
-
-### `link.openWith`
-
-- **Type:** String
-- **Options:** `"_blank"` | `"_self"`
-- **Description:**
-  - `"_blank"`: Opens link in a new tab
-  - `"_self"`: Opens link in the same tab
-
----
-
-## 3. BAR SETTINGS
+### 3.5 BAR SETTINGS
 
 Configuration for the announcement bar container.
 
-### `bar.position`
+#### `content.bar.position`
 
 - **Type:** String
 - **Options:** `"top"`, `"sticky-top"`, `"bottom"`, `"sticky-bottom"`
@@ -90,292 +127,263 @@ Configuration for the announcement bar container.
   - `"bottom"`: Bar at the bottom, scrolls away with content
   - `"sticky-bottom"`: Bar at the bottom, stays fixed while scrolling
 
-### `bar.animation`
+#### `content.bar.animation`
 
 - **Type:** String
 - **Options:** `"none"`, `"fallingTop"`, `"animateLeft"`, `"animateRight"`, `"animateBottom"`
 - **Description:** Entrance animation for the bar when page loads
 
-### `bar.contentAlignment`
+#### `content.bar.contentAlignment`
 
 - **Type:** String
 - **Options:** `"left"`, `"center"`, `"right"`
-- **Description:** Horizontal alignment of bar content (applies to single message type)
+- **Description:** Horizontal alignment of bar content (applies to single/multiple message types)
 
-### `bar.border.width`
+#### `content.bar.fontSize`
+
+- **Type:** String
+- **Options:** `"small"`, `"normal"`, `"large"`, `"very-large"`
+- **Description:** Font size setting for the bar (inherited by all elements)
+
+#### `content.bar.border.width`
 
 - **Type:** Number
-- **Unit:** Pixels
+- **Unit:** rem
 - **Description:** Border thickness
 
-### `bar.border.style`
+#### `content.bar.border.style`
 
 - **Type:** String
 - **Options:** `"none"`, `"solid"`, `"dashed"`, `"dotted"`, `"double"`, `"groove"`, `"ridge"`, `"inset"`, `"outset"`
 - **Description:** Border style
 
-### `bar.border.color`
+#### `content.bar.border.color`
 
 - **Type:** String (Hex color)
 - **Description:** Border color in hexadecimal format
 
-### `bar.border.radius`
+#### `content.bar.border.radius`
 
 - **Type:** Number
-- **Unit:** Pixels
+- **Unit:** rem
 - **Description:** Border corner radius (rounded corners)
 
-### `bar.padding`
+#### `content.bar.padding`
 
 - **Type:** Number
-- **Unit:** Pixels
+- **Unit:** rem
 - **Description:** Internal padding of the bar
 
-### `bar.clickable.enabled`
+#### `content.bar.clickable.enabled`
 
 - **Type:** Boolean
 - **Options:** `true` | `false`
 - **Description:** Whether the entire bar is clickable
 
-### `bar.clickable.url`
+#### `content.bar.clickable.url`
 
 - **Type:** String (URL)
 - **Description:** URL to redirect when bar is clicked (only if `enabled` is `true`)
 
-### `bar.clickable.openWith`
+#### `content.bar.clickable.openWith`
 
 - **Type:** String
 - **Options:** `"_blank"` | `"_self"`
 - **Description:** How to open the clickable bar URL
 
-### `bar.backgroundType`
+#### `content.bar.backgroundType`
 
 - **Type:** String
 - **Options:** `"solid"` | `"gradient"`
 - **Description:** Type of background for the bar
 
-### `bar.backgroundColor`
+#### `content.bar.backgroundColor`
 
 - **Type:** String (Hex color)
 - **Description:** Solid background color (used when `backgroundType` is `"solid"`)
 
-### `bar.gradient.angle`
+#### `content.bar.gradient.angle`
 
 - **Type:** Number
 - **Range:** 0-360
 - **Unit:** Degrees
 - **Description:** Gradient angle (used when `backgroundType` is `"gradient"`)
 
-### `bar.gradient.color1`
+#### `content.bar.gradient.color1`
 
 - **Type:** String (Hex color)
 - **Description:** Gradient start color
 
-### `bar.gradient.color2`
+#### `content.bar.gradient.color2`
 
 - **Type:** String (Hex color)
 - **Description:** Gradient end color
 
 ---
 
-## 4. BUTTON SETTINGS
+## 4. BAR ARRAY
 
-Configuration for the call-to-action button.
+The `bar` array contains individual message configurations. Each message can have its own text, button, and countdown.
 
-### `button.enabled`
+### `bar[].message.title`
 
-- **Type:** Boolean
-- **Options:** `true` | `false`
-- **Description:** Whether to show the button
+- **Type:** String (HTML allowed)
+- **Description:** The announcement message text. Can include HTML tags like `<a>` for links.
+- **Example:** `"🎉 BLACK FRIDAY deals starts in 2 days! <a href=\"https://example.com\" class=\"link-style-underline\" target=\"_blank\">Shop Now</a>"`
 
-### `button.text`
+**Link Styles:**
+
+- `class="link-style-underline"` - Underlined link
+- `class="link-style-bold"` - Bold link
+- `class="link-style-italic"` - Italic link
+
+### `bar[].button.text`
 
 - **Type:** String
 - **Description:** Text displayed on the button
 
-### `button.textColor`
-
-- **Type:** String (Hex color)
-- **Description:** Button text color
-
-### `button.backgroundColor`
-
-- **Type:** String (Hex color)
-- **Description:** Button background color
-
-### `button.borderRadius`
-
-- **Type:** Number
-- **Unit:** Pixels
-- **Description:** Button corner radius (rounded corners)
-
-### `button.animation`
-
-- **Type:** String
-- **Options:** `"none"`, `"bounce"`, `"flash"`, `"rubberBand"`, `"emit"`, `"swing"`, `"shake"`, `"pulse"`
-- **Description:** Animation effect for the button
-
-### `button.url`
+### `bar[].button.url`
 
 - **Type:** String (URL)
 - **Description:** URL where the button redirects
 
-### `button.openWith`
+### `bar[].button.openWith`
 
 - **Type:** String
 - **Options:** `"_blank"` | `"_self"`
 - **Description:** How to open the button URL
+  - `"_blank"`: Opens in a new tab
+  - `"_self"`: Opens in the same tab
 
-### `button.paddingX`
-
-- **Type:** Number
-- **Unit:** Pixels
-- **Description:** Horizontal (left/right) padding
-
-### `button.paddingY`
-
-- **Type:** Number
-- **Unit:** Pixels
-- **Description:** Vertical (top/bottom) padding
-
-### `button.fontSize`
-
-- **Type:** Number
-- **Unit:** Pixels
-- **Description:** Button text font size
-
----
-
-## 5. COUNTDOWN SETTINGS
-
-Configuration for the countdown timer.
-
-### `countdown.enabled`
-
-- **Type:** Boolean
-- **Options:** `true` | `false`
-- **Description:** Whether to show the countdown timer
-
-### `countdown.targetDate.startDate`
-
-- **Type:** String (ISO 8601 format)
-- **Description:** Start date for the countdown
-- **Example:** `"2025-12-03T00:00:00.000Z"`
-
-### `countdown.targetDate.targetDate`
+### `bar[].countdown.targetDate`
 
 - **Type:** String (ISO 8601 format)
 - **Description:** Target/end date for the countdown
 - **Example:** `"2025-12-13T00:00:00.000Z"`
 
-### `countdown.textColor`
+---
 
-- **Type:** String (Hex color)
-- **Description:** Countdown text color
+## 5. CSS-CONTROLLED SETTINGS
 
-### `countdown.backgroundColor`
+The following settings are controlled in `style.css` and are **not** in the JSON config:
 
-- **Type:** String (Hex color or `"transparent"`)
-- **Description:** Background color for each countdown unit box
+### Scrolling Animation
 
-### `countdown.shadowColor`
+Located in `:root` CSS variables:
 
-- **Type:** String (Hex color)
-- **Description:** Box shadow color for countdown units
+- `--scrolling-speed: 80px` - Speed in pixels per second
+- `--scrolling-gap: 0.3125rem` - Gap between scrolling messages
 
-### `countdown.fontSize`
+### Countdown Unit Styling
 
-- **Type:** Number
-- **Unit:** Pixels
-- **Description:** Countdown numbers font size
+Located in `.countdown-unit` class:
 
-### `countdown.fontWeight`
+- `border-radius: 0.1875rem` - Border radius for countdown boxes
+- `padding: 0.3125rem` - Padding inside countdown boxes
 
-- **Type:** Number
-- **Options:** `100`, `200`, `300`, `400`, `500`, `600`, `700`, `800`, `900`
-- **Description:** Countdown numbers font weight
+### Button Padding
 
-### `countdown.fontFamily`
+Located in `.flexibar-button` class:
 
-- **Type:** String
-- **Description:** Font family for countdown text
-
-### `countdown.borderRadius`
-
-- **Type:** Number
-- **Unit:** Pixels
-- **Description:** Border radius for countdown unit boxes
-
-### `countdown.padding`
-
-- **Type:** Number
-- **Unit:** Pixels
-- **Description:** Padding inside countdown unit boxes
+- `padding: 0.3125rem 0.625rem` - Vertical and horizontal padding
 
 ---
 
-## 6. SCROLLING SETTINGS
-
-Configuration for the scrolling/rolling message animation.
-
-### `scrolling.enabled`
-
-- **Type:** Boolean
-- **Options:** `true` | `false`
-- **Description:** Enable/disable message scrolling (applies to rolling message type)
-
-### `scrolling.speed`
-
-- **Type:** Number
-- **Unit:** Pixels per second
-- **Description:** Speed of the scrolling animation
-
-### `scrolling.gap`
-
-- **Type:** Number
-- **Unit:** Pixels
-- **Description:** Gap/spacing between repeated messages in rolling mode
-
----
-
-## Example Configuration
+## 6. EXAMPLE CONFIGURATION
 
 ```json
 {
-  "message": {
-    "type": "rolling",
-    "text": "🎉 Sale starts now!",
-    "fontFamily": "Montserrat",
-    "fontColor": "#ffffff",
-    "fontSize": 19,
-    "fontWeight": 700
+  "type": "multiple",
+  "options": {
+    "button": true,
+    "countdown": true
   },
-  "bar": {
-    "position": "sticky-top",
-    "animation": "fallingTop",
-    "contentAlignment": "center",
-    "backgroundColor": "#000000"
-  },
-  "button": {
-    "enabled": true,
-    "text": "Shop Now",
-    "backgroundColor": "#D32F2F"
-  },
-  "countdown": {
-    "enabled": true,
-    "targetDate": {
-      "targetDate": "2025-12-25T00:00:00.000Z"
+  "content": {
+    "general": {
+      "fontFamily": "Montserrat",
+      "fontColor": "#ffffff",
+      "fontSize": "normal",
+      "fontWeight": 700
+    },
+    "message": {},
+    "countdown": {
+      "textColor": "#fffffe",
+      "backgroundColor": "transparent",
+      "shadowColor": "#D32F2F"
+    },
+    "button": {
+      "textColor": "#ffffff",
+      "backgroundColor": "#D32F2F",
+      "borderRadius": 0.25,
+      "animation": "none"
+    },
+    "bar": {
+      "position": "top",
+      "animation": "animateLeft",
+      "contentAlignment": "center",
+      "fontSize": "normal",
+      "border": {
+        "width": 0,
+        "style": "solid",
+        "color": "#333333",
+        "radius": 0
+      },
+      "padding": 0.3125,
+      "clickable": {
+        "enabled": false,
+        "url": "",
+        "openWith": "_blank"
+      },
+      "backgroundType": "solid",
+      "backgroundColor": "#000000",
+      "gradient": {
+        "angle": 90,
+        "color1": "#000000",
+        "color2": "#333333"
+      }
     }
-  }
+  },
+  "bar": [
+    {
+      "message": {
+        "title": "🎉 BLACK FRIDAY deals starts in 2 days! <a href=\"https://example.com\" class=\"link-style-underline\" target=\"_blank\">Shop Now</a>"
+      },
+      "button": {
+        "text": "See Deal",
+        "url": "#",
+        "openWith": "_blank"
+      },
+      "countdown": {
+        "targetDate": "2025-12-13T00:00:00.000Z"
+      }
+    },
+    {
+      "message": {
+        "title": "🚀 Free shipping on orders over $50!"
+      },
+      "button": {
+        "text": "Shop Now",
+        "url": "#shipping",
+        "openWith": "_blank"
+      },
+      "countdown": {
+        "targetDate": "2025-12-15T00:00:00.000Z"
+      }
+    }
+  ]
 }
 ```
 
 ---
 
-## Notes
+## 7. NOTES
 
 - All color values should be in hexadecimal format (e.g., `"#ffffff"`)
-- All numeric values are in pixels unless otherwise specified
+- Numeric values use rem units in the JSON config (1rem = 16px typically)
 - Dates should be in ISO 8601 format
 - Boolean values should be `true` or `false` (lowercase, no quotes)
 - String values should be wrapped in double quotes
+- The `bar[]` array can contain multiple message objects for slideshow/rotation
+- For `type: "single"` or `type: "rolling"`, only the first item in the `bar[]` array is used
+- For `type: "multiple"`, all items in the `bar[]` array are displayed in rotation with navigation arrows
+- Scrolling speed, gap, countdown padding/border-radius, and button padding are controlled in CSS, not in the JSON config

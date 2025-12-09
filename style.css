@@ -5,6 +5,23 @@ body {
   font-family: Montserrat, sans-serif;
 }
 
+/* CSS Variables for Scrolling Control */
+:root {
+  --scrolling-speed: 80px; /* Speed in pixels per second */
+  --scrolling-gap: 0.3125rem; /* Gap between scrolling messages */
+}
+
+/* Countdown Styling (CSS-controlled properties) */
+.countdown-unit {
+  border-radius: 0.1875rem; /* 3px */
+  padding: 0.3125rem; /* 5px */
+}
+
+/* Button Styling (CSS-controlled properties) */
+.flexibar-button {
+  padding: 0.3125rem 0.625rem; /* paddingY: 5px, paddingX: 10px */
+}
+
 /* Scrolling/Rolling Message Animation */
 .message-container {
   overflow: hidden;
