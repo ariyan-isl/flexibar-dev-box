@@ -1,19 +1,19 @@
 {
-  "type": "multiple",
-  "options": {
-    "button": true,
-    "countdown": true
-  },
-  "content": {
-    "general": {
-      "fontFamily": "Montserrat",
-      "fontColor": "#ffffff",
-      "fontSize": "normal",
-      "fontWeight": 700
+  "settings": {
+    "type": "single \\ rolling \\ multiple",
+    "fontFamily": "Montserrat",
+    "fontColor": "#ffffff",
+    "fontSize": "normal",
+    "barPosition": "top",
+    "barAnimation": "animateLeft",
+    "barBackgroundType": "solid",
+    "barBackgroundColor": "#000000",
+    "barGradient": {
+      "angle": 90,
+      "color1": "#000000",
+      "color2": "#333333"
     },
-    "message": {
-      "ignore-this-for-now": true
-    },
+
     "countdown": {
       "textColor": "#fffffe",
       "backgroundColor": "transparent",
@@ -24,44 +24,21 @@
       "backgroundColor": "#D32F2F",
       "borderRadius": 0.25,
       "animation": "none"
-    },
-    "bar": {
-      "position": "top",
-      "animation": "animateLeft",
-      "contentAlignment": "center",
-      "fontSize": "normal",
-      "border": {
-        "width": 0,
-        "style": "solid",
-        "color": "#333333",
-        "radius": 0
-      },
-      "padding": 0.3125,
-      "clickable": {
-        "enabled": false,
-        "url": "",
-        "openWith": "_blank"
-      },
-      "backgroundType": "solid",
-      "backgroundColor": "#000000",
-      "gradient": {
-        "angle": 90,
-        "color1": "#000000",
-        "color2": "#333333"
-      }
     }
   },
-  "bar": [
+  "bars": [
     {
       "message": {
         "title": "🎉 BLACK FRIDAY deals starts in 2 days! <a href=\"https://example.com\" class=\"link-style-underline\" target=\"_blank\">Shop Now</a>"
       },
       "button": {
+        "buttonEnabled": true,
         "text": "See Deal",
         "url": "#",
         "openWith": "_blank"
       },
       "countdown": {
+        "countdownEnabled": true,
         "targetDate": "2025-12-13T00:00:00.000Z"
       }
     },
@@ -70,11 +47,13 @@
         "title": "🚀 Free shipping on orders over $50!"
       },
       "button": {
+        "buttonEnabled": true,
         "text": "Shop Now",
         "url": "#shipping",
         "openWith": "_blank"
       },
       "countdown": {
+        "countdownEnabled": true,
         "targetDate": "2025-12-15T00:00:00.000Z"
       }
     },
@@ -83,13 +62,33 @@
         "title": "⏰ Flash Sale: 24 hours only! Up to 70% OFF"
       },
       "button": {
+        "buttonEnabled": true,
         "text": "Get Offer",
         "url": "#flash-sale",
         "openWith": "_blank"
       },
       "countdown": {
+        "countdownEnabled": true,
         "targetDate": "2025-12-09T23:59:59.000Z"
       }
     }
-  ]
+  ],
+  "barMessageTranslations": [],
+  "placementSettings": {
+    "pages": [],
+    "keywords": "",
+    "countries": [],
+    "targetedDevice": ""
+  },
+  "isSchedule": false,
+  "startDate": {
+    "date": "2025-12-03",
+    "time": "09:34",
+    "timeZone": null
+  },
+  "endDate": {
+    "date": "2045-02-01",
+    "time": "09:34",
+    "timeZone": null
+  }
 }
