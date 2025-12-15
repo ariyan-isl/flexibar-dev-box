@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -48,7 +48,7 @@
             typeParam &&
             ["single", "rolling", "multiple"].includes(typeParam)
           ) {
-            CONFIG.type = typeParam;
+            CONFIG.settings.type = typeParam;
           }
 
           // Initialize the bar after config is loaded
@@ -63,65 +63,59 @@
       // ============================================================
 
       function getBarBackground() {
-        if (CONFIG.content.bar.backgroundType === "gradient") {
-          return `linear-gradient(${CONFIG.content.bar.gradient.angle}deg, ${CONFIG.content.bar.gradient.color1}, ${CONFIG.content.bar.gradient.color2})`;
+        if (CONFIG.settings.barBackgroundType === "gradient") {
+          return `linear-gradient(${CONFIG.settings.barGradient.angle}deg, ${CONFIG.settings.barGradient.color1}, ${CONFIG.settings.barGradient.color2})`;
         }
-        return CONFIG.content.bar.backgroundColor;
+        return CONFIG.settings.barBackgroundColor;
       }
 
       function getBarPositionClass() {
-        return CONFIG.content.bar.position || "";
+        return CONFIG.settings.barPosition || "";
       }
 
       function getBarAnimationClass() {
         if (
-          CONFIG.content.bar.animation &&
-          CONFIG.content.bar.animation !== "none"
+          CONFIG.settings.barAnimation &&
+          CONFIG.settings.barAnimation !== "none"
         ) {
-          return CONFIG.content.bar.animation;
+          return CONFIG.settings.barAnimation;
         }
         return "";
       }
 
       function getButtonAnimationClass() {
         if (
-          CONFIG.content.button.animation &&
-          CONFIG.content.button.animation !== "none"
+          CONFIG.settings.button.animation &&
+          CONFIG.settings.button.animation !== "none"
         ) {
-          return CONFIG.content.button.animation;
+          return CONFIG.settings.button.animation;
         }
         return "";
       }
 
       function handleBarClick(e) {
         if (
-          CONFIG.content.bar.clickable.enabled &&
-          CONFIG.content.bar.clickable.url
+          CONFIG.settings.clickable?.enabled &&
+          CONFIG.settings.clickable?.url
         ) {
           // Don't trigger if clicking on button or link
           if (e.target.closest(".flexibar-button") || e.target.closest("a")) {
             return;
           }
           window.open(
-            CONFIG.content.bar.clickable.url,
-            CONFIG.content.bar.clickable.openWith
+            CONFIG.settings.clickable.url,
+            CONFIG.settings.clickable.openWith
           );
         }
       }
 
-      // Get messages array with backward compatibility
+      // Get messages array
       function getMessagesArray() {
-        // New structure: CONFIG.bar is an array
-        if (CONFIG.bar && Array.isArray(CONFIG.bar)) {
-          return CONFIG.bar;
+        // New structure: CONFIG.bars is an array
+        if (CONFIG.bars && Array.isArray(CONFIG.bars)) {
+          return CONFIG.bars;
         }
-        // Backward compatibility: wrap single message/button in array
-        return [
-          {
-            message: CONFIG.content.message,
-            button: CONFIG.content.button,
-          },
-        ];
+        return [];
       }
 
       // Get current message content
@@ -139,7 +133,7 @@
         if (!barEl) return;
 
         // Apply font size class (default to 'normal' if not set)
-        const sizeOption = CONFIG.content.bar.fontSize || "normal";
+        const sizeOption = CONFIG.settings.fontSize || "normal";
         const sizeClass = SIZE_CLASSES[sizeOption] || SIZE_CLASSES.normal;
 
         // Remove any existing size classes and add the new one
@@ -150,19 +144,20 @@
 
         // Apply bar styles
         barEl.style.background = getBarBackground();
-        barEl.style.padding = `${CONFIG.content.bar.padding}rem`;
-        barEl.style.borderWidth = `${CONFIG.content.bar.border.width}rem`;
-        barEl.style.borderStyle = CONFIG.content.bar.border.style;
-        barEl.style.borderColor = CONFIG.content.bar.border.color;
-        barEl.style.borderRadius = `${CONFIG.content.bar.border.radius}rem`;
-        barEl.style.cursor = CONFIG.content.bar.clickable.enabled
+        barEl.style.padding = `${CONFIG.settings.padding || 0.5}rem`;
+        barEl.style.borderWidth = `${CONFIG.settings.border?.width || 0}rem`;
+        barEl.style.borderStyle = CONFIG.settings.border?.style || "solid";
+        barEl.style.borderColor =
+          CONFIG.settings.border?.color || "transparent";
+        barEl.style.borderRadius = `${CONFIG.settings.border?.radius || 0}rem`;
+        barEl.style.cursor = CONFIG.settings.clickable?.enabled
           ? "pointer"
           : "default";
 
         // Handle DOM placement for bottom positions
         if (
-          CONFIG.content.bar.position === "bottom" ||
-          CONFIG.content.bar.position === "sticky-bottom"
+          CONFIG.settings.barPosition === "bottom" ||
+          CONFIG.settings.barPosition === "sticky-bottom"
         ) {
           document.body.appendChild(barEl);
         } else {
@@ -184,14 +179,17 @@
         // Apply alignment for single/multiple message mode
         const topRow = barEl.querySelector(".flexibar-content-row");
         if (topRow) {
-          if (CONFIG.type === "single" || CONFIG.type === "multiple") {
+          if (
+            CONFIG.settings.type === "single" ||
+            CONFIG.settings.type === "multiple"
+          ) {
             const alignMap = {
               left: "flex-start",
               center: "center",
               right: "flex-end",
             };
             topRow.style.justifyContent =
-              alignMap[CONFIG.content.bar.contentAlignment] || "center";
+              alignMap[CONFIG.settings.contentAlignment] || "center";
           } else {
             // Reset to default for rolling (or handle mobile/desktop diffs via CSS)
             // For rolling, we usually want it to take full width, but the CSS handles it.
@@ -201,34 +199,34 @@
         }
 
         // Add click handler for clickable bar
-        if (CONFIG.content.bar.clickable.enabled) {
+        if (CONFIG.settings.clickable?.enabled) {
           barEl.addEventListener("click", handleBarClick);
         }
       }
 
       function renderMessage() {
         // For multiple type, messages are rendered in initSlideshow
-        if (CONFIG.type === "multiple") return;
+        if (CONFIG.settings.type === "multiple") return;
 
         const messageEls = document.querySelectorAll(".message-text");
         const content = getCurrentMessageContent(0);
 
         messageEls.forEach((el) => {
           el.innerHTML = content.message.title;
-          el.style.color = CONFIG.content.general.fontColor;
+          el.style.color = CONFIG.settings.fontColor;
           // Font size is inherited from the bar's base size
           el.style.fontSize = `var(--flexibar-base-size)`;
-          el.style.fontFamily = CONFIG.content.general.fontFamily;
-          el.style.fontWeight = CONFIG.content.general.fontWeight;
+          el.style.fontFamily = CONFIG.settings.fontFamily;
+          el.style.fontWeight = CONFIG.settings.fontWeight || "400";
           el.style.paddingRight = `var(--scrolling-gap)`;
         });
       }
 
       function applyMessageStyles(el) {
-        el.style.color = CONFIG.content.general.fontColor;
+        el.style.color = CONFIG.settings.fontColor;
         el.style.fontSize = `var(--flexibar-base-size)`;
-        el.style.fontFamily = CONFIG.content.general.fontFamily;
-        el.style.fontWeight = CONFIG.content.general.fontWeight;
+        el.style.fontFamily = CONFIG.settings.fontFamily;
+        el.style.fontWeight = CONFIG.settings.fontWeight || "400";
       }
 
       function renderButton(slideIndex = 0) {
@@ -236,22 +234,23 @@
         const content = getCurrentMessageContent(slideIndex);
 
         buttonEls.forEach((el) => {
-          if (!CONFIG.options.button) {
+          // Check if button is enabled for current slide
+          if (!content.button || !content.button.buttonEnabled) {
             el.style.display = "none";
             return;
           }
           el.style.display = "inline-flex";
 
-          // Use button content from current slide if available
-          const buttonContent = content.button || {};
+          // Use button content from current slide
+          const buttonContent = content.button;
           el.textContent = buttonContent.text || "Learn More";
           el.href = buttonContent.url || "#";
           el.target = buttonContent.openWith || "_blank";
 
-          // Apply design styles
-          el.style.color = CONFIG.content.button.textColor;
-          el.style.backgroundColor = CONFIG.content.button.backgroundColor;
-          el.style.borderRadius = `${CONFIG.content.button.borderRadius}rem`;
+          // Apply design styles from settings
+          el.style.color = CONFIG.settings.button.textColor;
+          el.style.backgroundColor = CONFIG.settings.button.backgroundColor;
+          el.style.borderRadius = `${CONFIG.settings.button.borderRadius}rem`;
           // Padding is controlled by CSS
           // Font size is inherited from the bar's base size
           el.style.fontSize = `var(--flexibar-base-size)`;
@@ -269,7 +268,14 @@
         const mobileCountdown = document.getElementById("countdown-mobile");
         const countdownRow = document.querySelector(".flexibar-countdown-row");
 
-        if (!CONFIG.options.countdown) {
+        // Check if countdown is enabled for current slide
+        const messages = getMessagesArray();
+        const currentMessage = messages[currentSlideIndex] || messages[0];
+        if (
+          !currentMessage ||
+          !currentMessage.countdown ||
+          !currentMessage.countdown.countdownEnabled
+        ) {
           if (desktopCountdown) desktopCountdown.style.display = "none";
           // Use setProperty with 'important' to override the CSS media query
           if (countdownRow)
@@ -278,22 +284,28 @@
           return;
         }
 
+        // Show countdown elements
+        if (desktopCountdown) desktopCountdown.style.display = "flex";
+        if (countdownRow) countdownRow.style.removeProperty("display");
+        if (mobileCountdown) mobileCountdown.style.display = "flex";
+
         // Apply styles to both desktop and mobile countdowns
         [desktopCountdown, mobileCountdown].forEach((el) => {
           if (!el) return;
-          el.style.fontFamily = CONFIG.content.general.fontFamily;
+          el.style.fontFamily = CONFIG.settings.fontFamily;
           // Font size is inherited from the bar's base size
           el.style.fontSize = `var(--flexibar-base-size)`;
-          el.style.fontWeight = CONFIG.content.general.fontWeight;
+          el.style.fontWeight = CONFIG.settings.fontWeight || "400";
         });
 
         // Apply styles to countdown units
         const countdownUnits = document.querySelectorAll(".countdown-unit");
         countdownUnits.forEach((unit) => {
-          unit.style.color = CONFIG.content.countdown.textColor;
-          unit.style.backgroundColor = CONFIG.content.countdown.backgroundColor;
+          unit.style.color = CONFIG.settings.countdown.textColor;
+          unit.style.backgroundColor =
+            CONFIG.settings.countdown.backgroundColor;
           // Border radius and padding are controlled by CSS
-          unit.style.boxShadow = `${CONFIG.content.countdown.shadowColor} 0.125rem 0.25rem 0.3125rem`;
+          unit.style.boxShadow = `${CONFIG.settings.countdown.shadowColor} 0.125rem 0.25rem 0.3125rem`;
         });
       }
 
@@ -321,7 +333,7 @@
         const container = scrollingContent.parentElement;
 
         // Check for multiple message type (slideshow)
-        if (CONFIG.type === "multiple") {
+        if (CONFIG.settings.type === "multiple") {
           container.style.flex = "0 1 auto";
           container.style.minWidth = "auto";
           scrollingContent.style.animation = "none";
@@ -333,7 +345,7 @@
         renderMessage();
 
         // Check for single message type
-        if (CONFIG.type === "single") {
+        if (CONFIG.settings.type === "single") {
           container.style.flex = "0 1 auto";
           container.style.minWidth = "auto";
           scrollingContent.style.animation = "none";
@@ -530,18 +542,15 @@
       let countdownInterval = null;
 
       function getCountdownTargetDate(slideIndex = 0) {
-        // If in multiple type, get countdown from current slide
-        if (CONFIG.type === "multiple") {
-          const messages = getMessagesArray();
-          const currentMessage = messages[slideIndex];
-          if (currentMessage && currentMessage.countdown) {
-            return new Date(currentMessage.countdown.targetDate);
-          }
-        }
+        const messages = getMessagesArray();
+        const currentMessage = messages[slideIndex] || messages[0];
 
-        // Fallback to backward compatibility for single/rolling
-        if (CONFIG.bar && CONFIG.bar[0] && CONFIG.bar[0].countdown) {
-          return new Date(CONFIG.bar[0].countdown.targetDate);
+        if (
+          currentMessage &&
+          currentMessage.countdown &&
+          currentMessage.countdown.countdownEnabled
+        ) {
+          return new Date(currentMessage.countdown.targetDate);
         }
 
         return null;
@@ -598,7 +607,15 @@
       }
 
       function runCountdown() {
-        if (!CONFIG.options.countdown) return;
+        // Check if countdown is enabled for current slide
+        const messages = getMessagesArray();
+        const currentMessage = messages[currentSlideIndex] || messages[0];
+        if (
+          !currentMessage ||
+          !currentMessage.countdown ||
+          !currentMessage.countdown.countdownEnabled
+        )
+          return;
 
         const updateCountdown = () => {
           const targetDate = getCountdownTargetDate(currentSlideIndex);
@@ -615,9 +632,9 @@
 
       function restartCountdown() {
         // Called when slide changes to update countdown for new slide
-        if (CONFIG.options.countdown) {
-          runCountdown();
-        }
+        // Re-render countdown to show/hide based on current slide
+        renderCountdown();
+        runCountdown();
       }
 
       // ============================================================
